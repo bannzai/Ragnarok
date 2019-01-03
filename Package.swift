@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "ragnarok",
+    name: "Ragnarok",
     products: [
       .executable(name: "ragnarok", targets: ["ragnarok"]),
       .library(name: "RagnarokCore", targets: ["RagnarokCore"]),
