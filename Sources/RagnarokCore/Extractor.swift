@@ -74,36 +74,52 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         if node.signature.input.parameterList.totalLength.newlines != 0 {
             return node
         }
-        node.signature.input.leftParen.wit
+
+        node
+            .signature
+            .input
+            .parameterList
+            .enumerated()
+            .forEach { (offset, parameter) in
+                switch parameter.trailingComma {
+                case .none:
+                    return
+                case .some:
+                    let comma = SyntaxFactory.makeCommaToken()
+                    let commaWithNewline = comma.withTrailingTrivia(Trivia(pieces: [.newlines(0)]))
+                    let newParameter = parameter.withTrailingComma(commaWithNewline)
+                    node.signature.input.parameterList.inserting(newParameter, at: offset).removing(childAt: offset + 1)
+                }
+        }
 
         return node
     }
     
-    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
-        node.parent as? FunctionDeclSyntax
-    }
+//    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
+//        node.parent as? FunctionDeclSyntax
+//    }
     
-    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
-        if node.totalLength.newlines != 0 {
-            return node
-        }
-        
-        let text = node
-            .description
-            .replacingOccurrences(of: "\n", with: "")
-            .components(separatedBy: ",")
-            .joined(separator: "\n")
-        
-        let syntax: FunctionParameterListSyntax!
-
-        FunctionParameterSyntax { (builder) in
-            builder.use
-        }
-        
-        node.replacing(childAt: <#T##Int#>, with: FunctionParameterSyntax)
-        
-
-        return node
-    }
+//    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
+//        if node.totalLength.newlines != 0 {
+//            return node
+//        }
+//
+//        let text = node
+//            .description
+//            .replacingOccurrences(of: "\n", with: "")
+//            .components(separatedBy: ",")
+//            .joined(separator: "\n")
+//
+//        let syntax: FunctionParameterListSyntax!
+//
+//        FunctionParameterSyntax { (builder) in
+//            builder.use
+//        }
+//
+//        node.replacing(childAt: <#T##Int#>, with: FunctionParameterSyntax)
+//
+//
+//        return node
+//    }
 }
 
