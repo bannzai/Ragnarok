@@ -62,21 +62,76 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         print("result: " + result.description)
     }
 
-    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
+//    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
+//        print("node: ParameterClauseSyntax: \(node.parameterList.totalLength)")
+//        if node.parameterList.totalLength.newlines == 1 {
+//            node.parameterList.replacing(childAt: Int, with: FunctionParameterSyntax(<#T##build: (inout FunctionParameterSyntaxBuilder) -> Void##(inout FunctionParameterSyntaxBuilder) -> Void#>))
+//        }
+//        return node
+//    }
+    
+    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
         if node.totalLength.newlines != 0 {
             return node
         }
         
-        guard let trailingComma = node.trailingComma else {
-            return node
+        var newNode = node
+        for (offset, parameter) in node.enumerated() {
+            switch parameter.trailingComma {
+            case .none:
+                continue
+            case .some:
+                let comma = SyntaxFactory.makeCommaToken()
+                let commaWithNewline = comma.withTrailingTrivia(Trivia(pieces: [.newlines(0)]))
+                let newParameter = parameter.withTrailingComma(commaWithNewline)
+                newNode = node.replacing(childAt: offset, with: newParameter)
+            }
         }
-
-        let commaWithNewLine = trailingComma.withTrailingTrivia(
-            Trivia(
-                pieces: [.newlines(1)]
-            )
-        )
-        return node.withTrailingComma(commaWithNewLine)
+        
+        
+        return newNode
     }
+    
+//    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
+//        if node.totalLength.newlines != 0 {
+//            return node
+//        }
+//
+//        guard let trailingComma = node.trailingComma else {
+//            return node
+//        }
+//
+//        let syntax = trailingComma.withTrailingTrivia(Trivia(
+//            pieces: [.newlines(1)]
+//        ))
+//        return node.withTrailingComma(syntax)
+//    }
+
+//    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
+//        node.parent as? FunctionDeclSyntax
+//    }
+    
+//    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
+//        if node.totalLength.newlines != 0 {
+//            return node
+//        }
+//
+//        let text = node
+//            .description
+//            .replacingOccurrences(of: "\n", with: "")
+//            .components(separatedBy: ",")
+//            .joined(separator: "\n")
+//
+//        let syntax: FunctionParameterListSyntax!
+//
+//        FunctionParameterSyntax { (builder) in
+//            builder.use
+//        }
+//
+//        node.replacing(childAt: <#T##Int#>, with: FunctionParameterSyntax)
+//
+//
+//        return node
+//    }
 }
 
