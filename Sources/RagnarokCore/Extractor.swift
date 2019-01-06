@@ -95,38 +95,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         return findFunctionalParent(syntax: syntax)?.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
     }
 
-    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
-        func makeSyntax(node: FunctionParameterListSyntax) -> Syntax {
-            var newNode = node
-            let indent = baseIndent(syntax: node) + 4
-            for (offset, parameter) in node.enumerated() {
-                var newParameter = parameter
-                
-                defer {
-                    newNode = newNode.replacing(childAt: offset, with: newParameter)
-                }
-                
-                switchFirstName: switch newParameter.firstName {
-                case .none:
-                    break switchFirstName
-                case .some(let firstName):
-                    let leadingTrivia = firstName
-                        .leadingTrivia
-                        .appending(.newlines(1))
-                        .appending(.spaces(indent))
-                    newParameter = newParameter
-                        .withFirstName(
-                            firstName.withLeadingTrivia(leadingTrivia)
-                    )
-                }
-            }
-            
-            return newNode
-        }
-
-        return makeSyntax(node: node)
-    }
-    
     public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
         if !(node.isDecl || node.isExpr) {
             return node
@@ -141,8 +109,35 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             .leadingTrivia
             .appending(.newlines(1))
             .appending(.spaces(indent))
+
+        func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
+            var newParameterList = node
+            let indent = baseIndent(syntax: node) + 4
+            for (offset, parameter) in node.enumerated() {
+                var newParameter = parameter
+                
+                switchFirstName: switch newParameter.firstName {
+                case .none:
+                    break switchFirstName
+                case .some(let firstName):
+                    let leadingTrivia = firstName
+                        .leadingTrivia
+                        .appending(.newlines(1))
+                        .appending(.spaces(indent))
+                    
+                    newParameter = newParameter.withFirstName(firstName.withLeadingTrivia(leadingTrivia))
+                    newParameterList = newParameterList.replacing(childAt: offset, with: newParameter)
+                }
+            }
+            
+            return newParameterList
+        }
         
-        return node.withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
+        return node
+            .withParameterList(makeSyntax(node: node.parameterList))
+            .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
+        
+//        return node.withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
     }
     
 //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
