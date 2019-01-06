@@ -15,14 +15,21 @@ public struct FileFinderImpl: FileFinder {
     }
     
     public func multipleline(
-        fuga: String,
-        piyo: Int
+        firstName secondName: String,
+        firstNameForSecondArgument: Int
         ) {
         
     }
 
     public init() {
-        
+        multipleline(
+            firstName: "",
+            firstNameForSecondArgument: 0
+        )
+        let _ = multipleline(
+            firstName: "",
+            firstNameForSecondArgument: 0
+        )
     }
 }
 
@@ -71,25 +78,62 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 //    }
     
     public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
+        func baseIndent(syntax: Syntax) -> Int {
+            switch syntax.parent {
+            case .none:
+                return 0
+            case let function as FunctionDeclSyntax:
+                print("decl: \(function)")
+                return function.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
+            case let function as FunctionCallExprSyntax:
+                print("expr: \(function)")
+                return function.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
+            case .some(let other):
+                return baseIndent(syntax: other)
+            }
+        }
         if node.totalLength.newlines != 0 {
             return node
         }
         
-        var newNode = node
-        for (offset, parameter) in node.enumerated() {
-            switch parameter.trailingComma {
-            case .none:
-                continue
-            case .some:
-                let comma = SyntaxFactory.makeCommaToken()
-                let commaWithNewline = comma.withTrailingTrivia(Trivia(pieces: [.newlines(0)]))
-                let newParameter = parameter.withTrailingComma(commaWithNewline)
-                newNode = node.replacing(childAt: offset, with: newParameter)
+        func makeSyntax(node: FunctionParameterListSyntax) -> Syntax {
+            print("node: \(node)")
+            var newNode = node
+            let indent = baseIndent(syntax: node) + 4
+            for (offset, parameter) in node.enumerated() {
+                var newParameter = parameter
+                
+                print("parameter: \(parameter)")
+                print("indent: \(indent)")
+
+                print("firstname: \(newParameter.firstName)")
+                print("secondname: \(newParameter.secondName)")
+                
+                
+                defer {
+                    newNode = newNode.replacing(childAt: offset, with: newParameter)
+                }
+                
+                switchFirstName: switch newParameter.firstName {
+                case .none:
+                    break switchFirstName
+                case .some(let firstName):
+                    let leadingTrivia = firstName
+                        .leadingTrivia
+                        .appending(.newlines(1))
+                        .appending(.spaces(indent))
+                    newParameter = newParameter
+                        .withFirstName(
+                            firstName.withLeadingTrivia(leadingTrivia)
+                    )
+                }
+                
             }
+            
+            return newNode
         }
-        
-        
-        return newNode
+
+        return makeSyntax(node: node)
     }
     
 //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
