@@ -30,6 +30,8 @@ public struct FileFinderImpl: FileFinder {
             firstName: "",
             firstNameForSecondArgument: 0
         )
+        
+        oneline(fuga: "", piyo: 0)
     }
 }
 
