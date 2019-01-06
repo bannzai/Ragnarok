@@ -77,38 +77,30 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 //        return node
 //    }
     
+    private func findFunctionalParent(syntax: Syntax) -> Syntax? {
+        switch syntax.parent {
+        case .none:
+            return nil
+        case let function as FunctionDeclSyntax:
+            return function
+        case let function as FunctionCallExprSyntax:
+            print("expr: \(function)")
+            return function
+        case .some(let other):
+            return findFunctionalParent(syntax: other)
+        }
+    }
+    
+    private func baseIndent(syntax: Syntax) -> Int {
+        return findFunctionalParent(syntax: syntax)?.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
+    }
+
     public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
-        func baseIndent(syntax: Syntax) -> Int {
-            switch syntax.parent {
-            case .none:
-                return 0
-            case let function as FunctionDeclSyntax:
-                print("decl: \(function)")
-                return function.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
-            case let function as FunctionCallExprSyntax:
-                print("expr: \(function)")
-                return function.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
-            case .some(let other):
-                return baseIndent(syntax: other)
-            }
-        }
-        if node.totalLength.newlines != 0 {
-            return node
-        }
-        
         func makeSyntax(node: FunctionParameterListSyntax) -> Syntax {
-            print("node: \(node)")
             var newNode = node
             let indent = baseIndent(syntax: node) + 4
             for (offset, parameter) in node.enumerated() {
                 var newParameter = parameter
-                
-                print("parameter: \(parameter)")
-                print("indent: \(indent)")
-
-                print("firstname: \(newParameter.firstName)")
-                print("secondname: \(newParameter.secondName)")
-                
                 
                 defer {
                     newNode = newNode.replacing(childAt: offset, with: newParameter)
@@ -127,7 +119,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                             firstName.withLeadingTrivia(leadingTrivia)
                     )
                 }
-                
             }
             
             return newNode
