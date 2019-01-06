@@ -127,6 +127,24 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         return makeSyntax(node: node)
     }
     
+    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
+        if !(node.isDecl || node.isExpr) {
+            return node
+        }
+        guard let functionalParentSyntax = findFunctionalParent(syntax: node) else {
+            return node
+        }
+        
+        let indent = baseIndent(syntax: functionalParentSyntax)
+        let leadingTrivia = node
+            .rightParen
+            .leadingTrivia
+            .appending(.newlines(1))
+            .appending(.spaces(indent))
+        
+        return node.withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
+    }
+    
 //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
 //        if node.totalLength.newlines != 0 {
 //            return node
