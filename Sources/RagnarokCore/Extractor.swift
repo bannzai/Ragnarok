@@ -74,6 +74,19 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     private func baseIndent(token: Syntax) -> Int {
         return token.parent?.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
     }
+    
+    func findParent<T: Syntax>(from syntax: Syntax) -> T? {
+        if let target = syntax as? T {
+            return target
+        }
+        
+        guard let next = syntax.parent else {
+            return nil
+        }
+
+        return findParent(from: next)
+        
+    }
 
     public override func visit(_ token: TokenSyntax) -> Syntax {
         func lineBreakForLeftParent(token: TokenSyntax) -> Syntax {
@@ -95,20 +108,25 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             guard isFunctionalSyntax else {
                 return token
             }
+            guard let parent = token.parent else {
+                assertionFailure("Token should has parent syntax")
+                return token
+            }
             return token
                 .withLeadingTrivia(
                     token
                         .leadingTrivia
                         .appending(.newlines(1))
-                        .appending(.spaces(baseIndent(token: token)))
+                        .appending(.spaces(baseIndent(token: parent)))
             )
         }
         
         func lineBreakForComma(token: TokenSyntax) -> Syntax {
-            let isFunctionalSyntax = token.parent is FunctionCallExprSyntax || token.parent is FunctionDeclSyntax
+            let isFunctionalSyntax = token.parent is FunctionCallArgumentSyntax
             guard isFunctionalSyntax else {
                 return token
             }
+            
             return token
                 .withTrailingTrivia(
                     token
