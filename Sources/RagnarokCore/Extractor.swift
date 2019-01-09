@@ -97,17 +97,39 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     }
     
     public override func visit(_ token: TokenSyntax) -> Syntax {
-        switch token.tokenKind {
-        case .leftParen where token.parent is FunctionCallExprSyntax:
-            print("token.description: \(token.description)")
+        func lineBreakForLeftParent(token: TokenSyntax) -> Syntax {
+            guard token.parent is FunctionCallExprSyntax else {
+                return token
+            }
             return token
                 .withTrailingTrivia(
                     token
                         .trailingTrivia
                         .appending(
-                        .newlines(1)
-                )
+                            .newlines(1)
+                    )
             )
+        }
+        
+        func lineBreakForRightParent(token: TokenSyntax) -> Syntax {
+            guard token.parent is FunctionCallExprSyntax else {
+                return token
+            }
+            return token
+                .withLeadingTrivia(
+                    token
+                        .leadingTrivia
+                        .appending(
+                            .newlines(1)
+                    )
+            )
+        }
+        
+        switch token.tokenKind {
+        case .leftParen:
+            return lineBreakForLeftParent(token: token)
+        case .rightParen:
+            return lineBreakForRightParent(token: token)
         case _:
             return super.visit(token)
         }
