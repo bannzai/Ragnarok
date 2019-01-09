@@ -85,9 +85,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                 .withTrailingTrivia(
                     token
                         .trailingTrivia
-                        .appending(
-                            .newlines(1) + .spaces(baseIndent(token: token))
-                    )
+                        .appending(.newlines(1))
+                        .appending(.spaces(baseIndent(token: token)))
             )
         }
         
@@ -100,9 +99,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                 .withLeadingTrivia(
                     token
                         .leadingTrivia
-                        .appending(
-                            .newlines(1) + .spaces(baseIndent(token: token))
-                    )
+                        .appending(.newlines(1))
+                        .appending(.spaces(baseIndent(token: token)))
             )
         }
         
@@ -115,9 +113,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                 .withTrailingTrivia(
                     token
                         .trailingTrivia
-                        .appending(
-                            .newlines(1) + .spaces(baseIndent(token: token))
-                    )
+                        .appending(.newlines(1))
+                        .appending(.spaces(baseIndent(token: token)))
             )
         }
         
