@@ -153,67 +153,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             return super.visit(token)
         }
     }
-    
-    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
-        if node.parameterList.count == 1 {
-            return super.visit(node)
-        }
-        
-        guard let functionalParentSyntax = findFunctionalParent(syntax: node) else {
-            return super.visit(node)
-        }
-        
-        let indent = baseIndent(syntax: functionalParentSyntax) + 8
-        func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
-            var newParameterList = node
-            let indent = baseIndent(syntax: node) + 4
-            for (offset, parameter) in node.enumerated() {
-                switchFirstName: switch parameter.firstName {
-                case .none:
-                    break switchFirstName
-                case .some(let firstName):
-                    let leadingTrivia = firstName
-                        .leadingTrivia
-                        .reduce(Trivia(pieces: []), { (result, piece) in
-                            switch piece {
-                            case .newlines:
-                                return result
-                            case _:
-                                return result.appending(piece)
-                            }
-                        })
-                        .appending(.newlines(1))
-                        .appending(.spaces(indent))
-                    
-                    newParameterList = newParameterList.replacing(
-                        childAt: offset,
-                        with: parameter.withFirstName(firstName.withLeadingTrivia(leadingTrivia))
-                    )
-                }
-            }
-            
-            return newParameterList
-        }
-        
-        let leadingTrivia = node
-            .rightParen
-            .leadingTrivia
-            .reduce(Trivia(pieces: []), { (result, piece) in
-                switch piece {
-                case .newlines:
-                    return result
-                case _:
-                    return result.appending(piece)
-                }
-            })
-            .appending(.newlines(1))
-            .appending(.spaces(indent))
 
-        return node
-            .withParameterList(makeSyntax(node: node.parameterList))
-            .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
-    }
-    
 //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
 //        if node.totalLength.newlines != 0 {
 //            return node
