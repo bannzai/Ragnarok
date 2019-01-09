@@ -68,27 +68,24 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     public func done() {
         let sourceFile = try! SyntaxTreeParser.parse(paths.first!)
         let result = visit(sourceFile)
-        print("result: " + result.description)
+        print("result: --------- \n " + result.description + "\n --------- ")
     }
 
-//    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
-//        print("node: ParameterClauseSyntax: \(node.parameterList.totalLength)")
-//        if node.parameterList.totalLength.newlines == 1 {
-//            node.parameterList.replacing(childAt: Int, with: FunctionParameterSyntax(<#T##build: (inout FunctionParameterSyntaxBuilder) -> Void##(inout FunctionParameterSyntaxBuilder) -> Void#>))
-//        }
-//        return node
-//    }
-    
     private func findFunctionalParent(syntax: Syntax) -> Syntax? {
         switch syntax.parent {
         case .none:
             return nil
         case let function as FunctionDeclSyntax:
-            return function
-        case let function as FunctionCallExprSyntax:
-            print("expr: \(function)")
+            print("FunctionDeclSyntax: \(function)")
             return function
         case let function as FunctionTypeSyntax:
+            print("FunctionTypeSyntax: \(function)")
+            return function
+        case let identifier as IdentifierExprSyntax where identifier.parent is FunctionCallExprSyntax:
+            print("IdentifierExprSyntax: \(identifier)")
+            return identifier
+        case let function as ClosureExprSyntax:
+            print("ClosureExprSyntax: \(function)")
             return function
         case .some(let other):
             return findFunctionalParent(syntax: other)
@@ -98,14 +95,31 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     private func baseIndent(syntax: Syntax) -> Int {
         return findFunctionalParent(syntax: syntax)?.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
     }
-
+    
+    public override func visit(_ token: TokenSyntax) -> Syntax {
+        switch token.tokenKind {
+        case .leftParen where token.parent is FunctionCallExprSyntax:
+            print("token.description: \(token.description)")
+            return token
+                .withTrailingTrivia(
+                    token
+                        .trailingTrivia
+                        .appending(
+                        .newlines(1)
+                )
+            )
+        case _:
+            return super.visit(token)
+        }
+    }
+    
     public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
         if node.parameterList.count == 1 {
-            return node
+            return super.visit(node)
         }
         
         guard let functionalParentSyntax = findFunctionalParent(syntax: node) else {
-            return node
+            return super.visit(node)
         }
         
         let indent = baseIndent(syntax: functionalParentSyntax) + 8
