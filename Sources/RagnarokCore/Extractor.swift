@@ -71,31 +71,10 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         print("result: --------- \n " + result.description + "\n --------- ")
     }
 
-    private func findFunctionalParent(syntax: Syntax) -> Syntax? {
-        switch syntax.parent {
-        case .none:
-            return nil
-        case let function as FunctionDeclSyntax:
-            print("FunctionDeclSyntax: \(function)")
-            return function
-        case let function as FunctionTypeSyntax:
-            print("FunctionTypeSyntax: \(function)")
-            return function
-        case let identifier as IdentifierExprSyntax where identifier.parent is FunctionCallExprSyntax:
-            print("IdentifierExprSyntax: \(identifier)")
-            return identifier
-        case let function as ClosureExprSyntax:
-            print("ClosureExprSyntax: \(function)")
-            return function
-        case .some(let other):
-            return findFunctionalParent(syntax: other)
-        }
+    private func baseIndent(token: Syntax) -> Int {
+        return token.parent?.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
     }
-    
-    private func baseIndent(syntax: Syntax) -> Int {
-        return findFunctionalParent(syntax: syntax)?.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
-    }
-    
+
     public override func visit(_ token: TokenSyntax) -> Syntax {
         func lineBreakForLeftParent(token: TokenSyntax) -> Syntax {
             let isFunctionalSyntax = token.parent is FunctionCallExprSyntax || token.parent is FunctionDeclSyntax
@@ -107,7 +86,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     token
                         .trailingTrivia
                         .appending(
-                            .newlines(1)
+                            .newlines(1) + .spaces(baseIndent(token: token))
                     )
             )
         }
@@ -122,7 +101,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     token
                         .leadingTrivia
                         .appending(
-                            .newlines(1)
+                            .newlines(1) + .spaces(baseIndent(token: token))
                     )
             )
         }
@@ -137,7 +116,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     token
                         .trailingTrivia
                         .appending(
-                            .newlines(1)
+                            .newlines(1) + .spaces(baseIndent(token: token))
                     )
             )
         }
