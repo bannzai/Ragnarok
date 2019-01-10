@@ -77,6 +77,13 @@ public struct FileFinderImpl: FileFinder {
         hasReturnValue()
         hasReturnValue(fuga: "", piyo: 1)
         ellipseFunctionPattern("", 1)
+        
+        [1].reduce(2) { (result, element)  in
+            return result + element
+        }
+        [1].reduce(2, { (result, element)  in
+            return result + element
+        })
     }
 }
 
@@ -144,68 +151,68 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         return Const.indent
     }
 
-    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
-        if node.parameterList.count <= 1 {
-            return super.visit(node)
-        }
-        
-        guard let functionalParentSyntax = findParent(
-            from: node,
-            to: FunctionDeclSyntax.self
-            ) else {
-                return super.visit(node)
-        }
-        
-        func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
-            var newParameterList = node
-            let indent = parentIndent(syntax: node) + additionalIndent * 2
-            for (offset, parameter) in node.enumerated() {
-                switchFirstName: switch parameter.firstName {
-                case .none:
-                    break switchFirstName
-                case .some(let firstName):
-                    let leadingTrivia = firstName
-                        .leadingTrivia
-                        .reduce(Trivia(pieces: []), { (result, piece) in
-                            switch piece {
-                            case .newlines:
-                                return result
-                            case _:
-                                return result.appending(piece)
-                            }
-                        })
-                        .appending(.newlines(1))
-                        .appending(.spaces(indent))
-                    
-                    newParameterList = newParameterList.replacing(
-                        childAt: offset,
-                        with: parameter.withFirstName(firstName.withLeadingTrivia(leadingTrivia))
-                    )
-                }
-            }
-            
-            return newParameterList
-        }
-        
-        let indent = parentIndent(syntax: functionalParentSyntax) + additionalIndent
-        let leadingTrivia = node
-            .rightParen
-            .leadingTrivia
-            .reduce(Trivia(pieces: []), { (result, piece) in
-                switch piece {
-                case .newlines:
-                    return result
-                case _:
-                    return result.appending(piece)
-                }
-            })
-            .appending(.newlines(1))
-            .appending(.spaces(indent))
-        
-        return node
-            .withParameterList(makeSyntax(node: node.parameterList))
-            .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
-    }
+//    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
+//        if node.parameterList.count <= 1 {
+//            return super.visit(node)
+//        }
+//
+//        guard let functionalParentSyntax = findParent(
+//            from: node,
+//            to: FunctionDeclSyntax.self
+//            ) else {
+//                return super.visit(node)
+//        }
+//
+//        func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
+//            var newParameterList = node
+//            let indent = parentIndent(syntax: node) + additionalIndent * 2
+//            for (offset, parameter) in node.enumerated() {
+//                switchFirstName: switch parameter.firstName {
+//                case .none:
+//                    break switchFirstName
+//                case .some(let firstName):
+//                    let leadingTrivia = firstName
+//                        .leadingTrivia
+//                        .reduce(Trivia(pieces: []), { (result, piece) in
+//                            switch piece {
+//                            case .newlines:
+//                                return result
+//                            case _:
+//                                return result.appending(piece)
+//                            }
+//                        })
+//                        .appending(.newlines(1))
+//                        .appending(.spaces(indent))
+//
+//                    newParameterList = newParameterList.replacing(
+//                        childAt: offset,
+//                        with: parameter.withFirstName(firstName.withLeadingTrivia(leadingTrivia))
+//                    )
+//                }
+//            }
+//
+//            return newParameterList
+//        }
+//
+//        let indent = parentIndent(syntax: functionalParentSyntax) + additionalIndent
+//        let leadingTrivia = node
+//            .rightParen
+//            .leadingTrivia
+//            .reduce(Trivia(pieces: []), { (result, piece) in
+//                switch piece {
+//                case .newlines:
+//                    return result
+//                case _:
+//                    return result.appending(piece)
+//                }
+//            })
+//            .appending(.newlines(1))
+//            .appending(.spaces(indent))
+//
+//        return node
+//            .withParameterList(makeSyntax(node: node.parameterList))
+//            .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
+//    }
 
     
     public override func visit(_ node: FunctionCallExprSyntax) -> ExprSyntax {
