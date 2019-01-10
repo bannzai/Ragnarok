@@ -251,6 +251,9 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         if let inVariableDecl = findParent(from: node, to: VariableDeclSyntax.self) {
             baseIndent = indent(from: inVariableDecl)
         }
+        if let inReturn = findParent(from: node, to: ReturnStmtSyntax.self) {
+            baseIndent = indent(from: inReturn)
+        }
 
         var newNode = node
         
