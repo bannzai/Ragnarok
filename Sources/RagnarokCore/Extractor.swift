@@ -100,7 +100,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     }
 
     public override func visit(_ token: TokenSyntax) -> Syntax {
-        func lineBreakForLeftParent(token: TokenSyntax) -> Syntax {
+        func lineBreakForLeftParen(token: TokenSyntax) -> Syntax {
             let isFunctionalSyntax = token.parent is FunctionCallExprSyntax || token.parent is FunctionDeclSyntax
             guard isFunctionalSyntax else {
                 return token
@@ -114,7 +114,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             )
         }
         
-        func lineBreakForRightParent(token: TokenSyntax) -> Syntax {
+        func lineBreakForRightParen(token: TokenSyntax) -> Syntax {
             let isFunctionalSyntax = token.parent is FunctionCallExprSyntax || token.parent is FunctionDeclSyntax
             guard isFunctionalSyntax else {
                 return token
@@ -151,9 +151,9 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         
         switch token.tokenKind {
         case .leftParen:
-            return lineBreakForLeftParent(token: token)
+            return lineBreakForLeftParen(token: token)
         case .rightParen:
-            return lineBreakForRightParent(token: token)
+            return lineBreakForRightParen(token: token)
         case .comma:
             return lineBreakForComma(token: token)
         case _:
