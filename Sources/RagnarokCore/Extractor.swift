@@ -248,6 +248,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         
         var baseIndent = indent(from: node)
+        var adjustmentRightParenIndent = 0
         if let forDiscardAssignmentExpr = findParent(from: node, to: ExprListSyntax.self) {
             baseIndent = indent(from: forDiscardAssignmentExpr)
         }
@@ -259,9 +260,11 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         if let inGuard = findParent(from: node, to: GuardStmtSyntax.self) {
             baseIndent = indent(from: inGuard)
+            adjustmentRightParenIndent = additionalIndent
         }
         if let inIf = findParent(from: node, to: IfStmtSyntax.self) {
             baseIndent = indent(from: inIf)
+            
         }
 
         var newNode = node
@@ -291,7 +294,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     rightParen
                         .withoutTrivia()
                         .withLeadingTrivia(
-                            Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent)
+                            Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + adjustmentRightParenIndent)
                             )
                     )
             )
