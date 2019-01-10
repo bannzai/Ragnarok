@@ -280,7 +280,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             newNode = newNode
                 .withLeftParen(
                     leftParen
-                        .withoutTrivia()
                         .withTrailingTrivia(
                             Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
                             )
@@ -292,7 +291,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             newNode = newNode
                 .withRightParen(
                     rightParen
-                        .withoutTrivia()
                         .withLeadingTrivia(
                             Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + adjustmentRightParenIndent)
                             )
