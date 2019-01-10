@@ -32,6 +32,10 @@ public struct FileFinderImpl: FileFinder {
     func hasReturnValue() -> Void {
         
     }
+    
+    func hasReturnValue(fuga: String, piyo: Int) -> Void {
+        
+    }
 
     public init() {
         multipleline(
@@ -56,6 +60,7 @@ public struct FileFinderImpl: FileFinder {
         oneline(fuga: "", piyo: 0)
         noArgument()
         hasReturnValue()
+        hasReturnValue(fuga: "", piyo: 1)
     }
 }
 
