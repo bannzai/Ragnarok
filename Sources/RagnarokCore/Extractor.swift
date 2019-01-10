@@ -127,7 +127,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     var additionalIndent: Int {
         return Const.indent
     }
-    
 
     public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
         if node.parameterList.count <= 1 {
@@ -229,7 +228,11 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             return newParameterList
         }
         
-        let baseIndent = parentIndent(syntax: node)
+        var baseIndent = indent(from: node)
+        if let inVariableDecl = findParent(from: node, to: VariableDeclSyntax.self) {
+            baseIndent = indent(from: inVariableDecl)
+        }
+
         var newNode = node
         
         newNode = newNode.withArgumentList(
