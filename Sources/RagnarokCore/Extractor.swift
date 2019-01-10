@@ -228,7 +228,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         
         func makeSyntax(node: FunctionCallArgumentListSyntax) -> FunctionCallArgumentListSyntax {
             var newParameterList = node
-            let indent = parentIndent(syntax: node) + additionalIndent * 2
+            let indent = parentIndent(syntax: node) + additionalIndent
             for (offset, parameter) in node.enumerated() {
                 let isLast = (offset + 1) == node.endIndex
                 switchIsLast: switch isLast {
@@ -252,7 +252,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             let leftParenTrivia = leftParen
                 .trailingTrivia
                 .appending(.newlines(1))
-                .appending(.spaces(baseIndent + additionalIndent * 2))
+                .appending(.spaces(baseIndent + additionalIndent))
             newNode = newNode.withLeftParen(leftParen.withTrailingTrivia(leftParenTrivia))
         }
         
@@ -260,7 +260,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             let rightParenTrivia = rightParen
             .leadingTrivia
             .appending(.newlines(1))
-            .appending(.spaces(baseIndent + additionalIndent))
+            .appending(.spaces(baseIndent))
             
             newNode = newNode.withRightParen(rightParen.withLeadingTrivia(rightParenTrivia))
         }
