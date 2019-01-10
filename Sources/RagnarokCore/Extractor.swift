@@ -10,6 +10,14 @@ public struct FileFinderImpl: FileFinder {
         return !FileManager.default.fileExists(atPath: path)
     }
     
+    public func noArgument() {
+        
+    }
+    
+    public func singleArgumentFunc(fuga: Int) {
+        
+    }
+    
     public func oneline(fuga: String, piyo: Int) {
         
     }
@@ -20,6 +28,10 @@ public struct FileFinderImpl: FileFinder {
         ) {
         
     }
+    
+    func hasReturnValue() -> Void {
+        
+    }
 
     public init() {
         multipleline(
@@ -28,8 +40,16 @@ public struct FileFinderImpl: FileFinder {
             
             firstNameForSecondArgument: 0
         )
+        
+        multipleline(
+            firstName: "",
+            firstNameForSecondArgument: 0
+        )
 
+        singleArgumentFunc(fuga: 1)
         oneline(fuga: "", piyo: 0)
+        noArgument()
+        hasReturnValue()
     }
 }
 
