@@ -96,7 +96,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     }
     
     var additionalIndent: Int {
-        return Const.additionalIndent
+        return Const.indent
     }
     
 //    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
@@ -161,7 +161,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     
     
     public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
-        if node.parameterList.count == 1 {
+        if node.parameterList.count <= 1 {
             return super.visit(node)
         }
         
@@ -220,7 +220,53 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
     }
 
-
+    
+    public override func visit(_ node: FunctionCallExprSyntax) -> ExprSyntax {
+        if node.argumentList.count <= 1 {
+            return super.visit(node)
+        }
+        
+        func makeSyntax(node: FunctionCallArgumentListSyntax) -> FunctionCallArgumentListSyntax {
+            var newParameterList = node
+            let indent = parentIndent(syntax: node) + additionalIndent * 2
+            for (offset, parameter) in node.enumerated() {
+                let isLast = (offset + 1) == node.endIndex
+                switchIsLast: switch isLast {
+                case false:
+                    let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
+                    newParameterList = newParameterList.replacing(
+                        childAt: offset,
+                        with: parameter.withTrailingComma(comma)
+                    )
+                case true:
+                    break switchIsLast
+                }
+            }
+            
+            return newParameterList
+        }
+        
+        let baseIndent = parentIndent(syntax: node)
+        var newNode = node.withArgumentList(makeSyntax(node: node.argumentList))
+        if let leftParen = node.leftParen {
+            let leftParenTrivia = leftParen
+                .trailingTrivia
+                .appending(.newlines(1))
+                .appending(.spaces(baseIndent + additionalIndent * 2))
+            newNode = newNode.withLeftParen(leftParen.withTrailingTrivia(leftParenTrivia))
+        }
+        
+        if let rightParen = node.rightParen {
+            let rightParenTrivia = rightParen
+            .leadingTrivia
+            .appending(.newlines(1))
+            .appending(.spaces(baseIndent + additionalIndent))
+            
+            newNode = newNode.withRightParen(rightParen.withLeadingTrivia(rightParenTrivia))
+        }
+        return newNode
+    }
+    
 
 //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
 //        if node.totalLength.newlines != 0 {
@@ -267,6 +313,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 
 extension FunctionDeclArgumentsReWriter {
     struct Const {
-        static let additionalIndent = 4
+        static let indent = 4
     }
 }
