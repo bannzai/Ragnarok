@@ -36,6 +36,14 @@ public struct FileFinderImpl: FileFinder {
     func hasReturnValue(fuga: String, piyo: Int) -> Void {
         
     }
+    
+    func ellipseFunctionPattern(_ fuga: String, _ piyo: Int) {
+        
+    }
+    
+    func ellipseVariablePattern(fuga: String, piyo: Int) {
+        
+    }
 
     public init() {
         multipleline(
@@ -61,12 +69,14 @@ public struct FileFinderImpl: FileFinder {
             firstName: "",
             firstNameForSecondArgument: 0
         )
+        _ = ellipseVariablePattern(fuga: "", piyo: 1)
 
         singleArgumentFunc(fuga: 1)
         oneline(fuga: "", piyo: 0)
         noArgument()
         hasReturnValue()
         hasReturnValue(fuga: "", piyo: 1)
+        ellipseFunctionPattern("", 1)
     }
 }
 
