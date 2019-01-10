@@ -129,12 +129,12 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     
     
     func findParent<T: Syntax>(from syntax: Syntax, to goalType: T.Type) -> T? {
-        if let target = syntax as? T {
-            return target
-        }
-        
         guard let next = syntax.parent else {
             return nil
+        }
+        
+        if let target = next as? T {
+            return target
         }
 
         return findParent(from: next, to: goalType)
@@ -251,6 +251,9 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         var adjustmentRightParenIndent = 0
         if let forDiscardAssignmentExpr = findParent(from: node, to: ExprListSyntax.self) {
             baseIndent = indent(from: forDiscardAssignmentExpr)
+        }
+        if let inFunction = findParent(from: node, to: FunctionCallExprSyntax.self) {
+            baseIndent = indent(from: inFunction)
         }
         if let inVariableDecl = findParent(from: node, to: VariableDeclSyntax.self) {
             baseIndent = indent(from: inVariableDecl)
