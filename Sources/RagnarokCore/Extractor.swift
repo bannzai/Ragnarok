@@ -261,6 +261,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                 })
                 .appending(.newlines(1))
                 .appending(.spaces(baseIndent + additionalIndent))
+            
             newNode = newNode.withLeftParen(leftParen.withTrailingTrivia(leftParenTrivia))
         }
         
@@ -281,6 +282,15 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             newNode = newNode.withRightParen(rightParen.withLeadingTrivia(rightParenTrivia))
         }
         return newNode
+    }
+    
+    public override func visit(_ node: FunctionCallArgumentSyntax) -> Syntax {
+        guard let label = node.label else {
+            return super.visit(node)
+        }
+        
+        print("node.label: \(node.label)")
+        return node.withLabel(label.withoutLeadingTrivia())
     }
     
     
