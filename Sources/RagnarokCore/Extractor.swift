@@ -245,6 +245,9 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         
         var baseIndent = indent(from: node)
+        if let forDiscardAssignmentExpr = findParent(from: node, to: ExprListSyntax.self) {
+            baseIndent = indent(from: forDiscardAssignmentExpr)
+        }
         if let inVariableDecl = findParent(from: node, to: VariableDeclSyntax.self) {
             baseIndent = indent(from: inVariableDecl)
         }
