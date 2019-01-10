@@ -267,7 +267,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         if let inIf = findParent(from: node, to: IfStmtSyntax.self) {
             baseIndent = indent(from: inIf)
-            
         }
 
         var newNode = node
