@@ -249,51 +249,29 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         let baseIndent = parentIndent(syntax: node)
         var newNode = node.withArgumentList(makeSyntax(node: node.argumentList))
         if let leftParen = node.leftParen {
-            let leftParenTrivia = leftParen
-                .trailingTrivia
-                .reduce(Trivia(pieces: []), { (result, piece)  in
-                    switch piece {
-                    case .newlines:
-                        return result
-                    case _:
-                        return result.appending(piece)
-                    }
-                })
-                .appending(.newlines(1))
-                .appending(.spaces(baseIndent + additionalIndent))
-            
-            newNode = newNode.withLeftParen(leftParen.withTrailingTrivia(leftParenTrivia))
+            newNode = newNode
+                .withLeftParen(
+                    leftParen.withTrailingTrivia(
+                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
+                    )
+                )
+            )
         }
         
         if let rightParen = node.rightParen {
-            let rightParenTrivia = rightParen
-                .leadingTrivia
-                .reduce(Trivia(pieces: []), { (result, piece)  in
-                    switch piece {
-                    case .newlines:
-                        return result
-                    case _:
-                        return result.appending(piece)
-                    }
-                })
-                .appending(.newlines(1))
-                .appending(.spaces(baseIndent))
-            
-            newNode = newNode.withRightParen(rightParen.withLeadingTrivia(rightParenTrivia))
+            newNode = newNode
+                .withRightParen(
+                    rightParen.withLeadingTrivia(
+                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent)
+                        )
+                    )
+            )
         }
+        
         return newNode
     }
     
-    public override func visit(_ node: FunctionCallArgumentSyntax) -> Syntax {
-        guard let label = node.label else {
-            return super.visit(node)
-        }
-        
-        print("node.label: \(node.label)")
-        return node.withLabel(label.withoutLeadingTrivia())
-    }
-    
-    
+
     //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
 //        if node.totalLength.newlines != 0 {
 //            return node
