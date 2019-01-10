@@ -226,7 +226,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         
         newNode = newNode.withArgumentList(makeSyntax(node: node.argumentList))
 
-        if let leftParen = node.leftParen {
+        if let leftParen = newNode.leftParen {
             newNode = newNode
                 .withLeftParen(
                     leftParen
@@ -238,7 +238,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             )
         }
 
-        if let rightParen = node.rightParen {
+        if let rightParen = newNode.rightParen {
             newNode = newNode
                 .withRightParen(
                     rightParen
