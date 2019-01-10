@@ -71,11 +71,19 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         print("result: --------- \n " + result.description + "\n --------- ")
     }
 
-    private func baseIndent(token: Syntax) -> Int {
-        return token.parent?.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
+    private func parentIndent(token: Syntax) -> Int {
+        guard let parent = token.parent else {
+            return 0
+        }
+        return indent(from: parent)
     }
     
-    func findParent<T: Syntax>(from syntax: Syntax) -> T? {
+    private func indent(from token: Syntax) -> Int {
+        return token.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
+    }
+    
+    
+    func findParent<T: Syntax>(from syntax: Syntax, to goalType: T.Type) -> T? {
         if let target = syntax as? T {
             return target
         }
@@ -84,8 +92,11 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             return nil
         }
 
-        return findParent(from: next)
-        
+        return findParent(from: next, to: goalType)
+    }
+    
+    var additionalIndent: Int {
+        return Const.additionalIndent
     }
 
     public override func visit(_ token: TokenSyntax) -> Syntax {
@@ -99,7 +110,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     token
                         .trailingTrivia
                         .appending(.newlines(1))
-                        .appending(.spaces(baseIndent(token: token)))
+                        .appending(.spaces(parentIndent(token: token) + additionalIndent))
             )
         }
         
@@ -108,16 +119,13 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             guard isFunctionalSyntax else {
                 return token
             }
-            guard let parent = token.parent else {
-                assertionFailure("Token should has parent syntax")
-                return token
-            }
+            
             return token
                 .withLeadingTrivia(
                     token
                         .leadingTrivia
                         .appending(.newlines(1))
-                        .appending(.spaces(baseIndent(token: parent)))
+                        .appending(.spaces(parentIndent(token: token) + additionalIndent))
             )
         }
         
@@ -127,12 +135,17 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                 return token
             }
             
+            var baseIndent: Int = parentIndent(token: token)
+            if let functionIdentifier = findParent(from: token, to: FunctionCallExprSyntax.self) {
+                baseIndent = indent(from: functionIdentifier)
+            }
+            
             return token
                 .withTrailingTrivia(
                     token
                         .trailingTrivia
                         .appending(.newlines(1))
-                        .appending(.spaces(baseIndent(token: token)))
+                        .appending(.spaces(baseIndent + additionalIndent))
             )
         }
         
@@ -191,3 +204,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 //    }
 }
 
+extension FunctionDeclArgumentsReWriter {
+    struct Const {
+        static let additionalIndent = 4
+    }
+}
