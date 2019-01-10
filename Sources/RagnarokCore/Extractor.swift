@@ -151,20 +151,49 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         
         func removeLineBreakForFunctionLabel(token: TokenSyntax) -> Syntax {
-            let indent = token.leadingTrivia.sourceLength.columnsAtLastLine
+            guard
+                let parent = token.parent as? FunctionCallArgumentSyntax,
+                let functionCallExprParent = findParent(from: parent, to: FunctionCallExprSyntax.self),
+                let functionCallExprParentFirstChild = functionCallExprParent.children.first(where: { (syntax) in
+                    return syntax.leadingTrivia != nil
+                }),
+                let functionCallLeadingTrivia = functionCallExprParentFirstChild.leadingTrivia
+                else {
+                    assertionFailure()
+                    return token
+            }
+
+            let isOnlyOneFunctionArgument = parent
+                .children
+                .compactMap { $0 as? TokenSyntax }
+                .filter { token in
+                    switch token.tokenKind {
+                    case .comma:
+                        return true
+                    case _:
+                        return false
+                    }
+                }
+                .isEmpty
+            
+            if isOnlyOneFunctionArgument {
+                return token
+            }
+
+            let indent = functionCallLeadingTrivia.sourceLength.columnsAtLastLine + additionalIndent
             return token
                 .withLeadingTrivia(
-                    Trivia(arrayLiteral: .newlines(0), .spaces(indent))
+                    Trivia(arrayLiteral: .newlines(1), .spaces(indent))
             )
         }
         
         switch token.tokenKind {
-        case .leftParen:
-            return lineBreakForLeftParen(token: token)
+//        case .leftParen:
+//            return lineBreakForLeftParen(token: token)
         case .rightParen:
             return lineBreakForRightParen(token: token)
-        case .comma:
-            return lineBreakForComma(token: token)
+//        case .comma:
+//            return lineBreakForComma(token: token)
         case .identifier where token.parent is FunctionCallArgumentSyntax:
             return removeLineBreakForFunctionLabel(token: token)
         case _:
