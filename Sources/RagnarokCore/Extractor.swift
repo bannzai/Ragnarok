@@ -168,17 +168,28 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             var newParameterList = node
             let indent = parentIndent(syntax: node) + additionalIndent
             for (offset, parameter) in node.enumerated() {
+                var newParamter = parameter
+                
                 let isLast = (offset + 1) == node.endIndex
                 switchIsLast: switch isLast {
                 case false:
                     let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
-                    newParameterList = newParameterList.replacing(
-                        childAt: offset,
-                        with: parameter.withTrailingComma(comma)
-                    )
+                    newParamter = newParamter.withTrailingComma(comma)
                 case true:
                     break switchIsLast
                 }
+                
+                switchParameterLabel: switch newParamter.label {
+                case .none:
+                    break switchParameterLabel
+                case .some(let label):
+                    newParamter = newParamter.withLabel(label.withoutTrivia())
+                }
+                
+                newParameterList = newParameterList.replacing(
+                    childAt: offset,
+                    with: newParamter
+                )
             }
             
             return newParameterList
@@ -187,6 +198,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         let baseIndent = parentIndent(syntax: node)
         var newNode = node
         
+        newNode = newNode.withArgumentList(makeSyntax(node: node.argumentList))
+
         if let leftParen = node.leftParen {
             newNode = newNode
                 .withLeftParen(
@@ -198,9 +211,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     )
             )
         }
-        
-       newNode = newNode.withArgumentList(makeSyntax(node: node.argumentList))
-        
+
         if let rightParen = node.rightParen {
             newNode = newNode
                 .withRightParen(
