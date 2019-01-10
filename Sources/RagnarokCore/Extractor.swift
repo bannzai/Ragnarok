@@ -251,6 +251,14 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         if let leftParen = node.leftParen {
             let leftParenTrivia = leftParen
                 .trailingTrivia
+                .reduce(Trivia(pieces: []), { (result, piece)  in
+                    switch piece {
+                    case .newlines:
+                        return result
+                    case _:
+                        return result.appending(piece)
+                    }
+                })
                 .appending(.newlines(1))
                 .appending(.spaces(baseIndent + additionalIndent))
             newNode = newNode.withLeftParen(leftParen.withTrailingTrivia(leftParenTrivia))
@@ -258,17 +266,25 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         
         if let rightParen = node.rightParen {
             let rightParenTrivia = rightParen
-            .leadingTrivia
-            .appending(.newlines(1))
-            .appending(.spaces(baseIndent))
+                .leadingTrivia
+                .reduce(Trivia(pieces: []), { (result, piece)  in
+                    switch piece {
+                    case .newlines:
+                        return result
+                    case _:
+                        return result.appending(piece)
+                    }
+                })
+                .appending(.newlines(1))
+                .appending(.spaces(baseIndent))
             
             newNode = newNode.withRightParen(rightParen.withLeadingTrivia(rightParenTrivia))
         }
         return newNode
     }
     
-
-//    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
+    
+    //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
 //        if node.totalLength.newlines != 0 {
 //            return node
 //        }
