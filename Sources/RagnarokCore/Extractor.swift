@@ -105,13 +105,14 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             guard isFunctionalSyntax else {
                 return token
             }
+            
             return token
                 .withTrailingTrivia(
-                    token
-                        .trailingTrivia
-                        .appending(.newlines(1))
-                        .appending(.spaces(parentIndent(token: token) + additionalIndent))
+                    Trivia(
+                        arrayLiteral: .newlines(1), .spaces((parentIndent(token: token) + additionalIndent))
+                    )
             )
+            
         }
         
         func lineBreakForRightParen(token: TokenSyntax) -> Syntax {
@@ -125,7 +126,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     token
                         .leadingTrivia
                         .appending(.newlines(1))
-                        .appending(.spaces(parentIndent(token: token) + additionalIndent))
+                        .appending(.spaces(parentIndent(token: token)))
             )
         }
         
@@ -149,6 +150,14 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             )
         }
         
+        func removeLineBreakForFunctionLabel(token: TokenSyntax) -> Syntax {
+            let indent = token.leadingTrivia.sourceLength.columnsAtLastLine
+            return token
+                .withLeadingTrivia(
+                    Trivia(arrayLiteral: .newlines(0), .spaces(indent))
+            )
+        }
+        
         switch token.tokenKind {
         case .leftParen:
             return lineBreakForLeftParen(token: token)
@@ -156,6 +165,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             return lineBreakForRightParen(token: token)
         case .comma:
             return lineBreakForComma(token: token)
+        case .identifier where token.parent is FunctionCallArgumentSyntax:
+            return removeLineBreakForFunctionLabel(token: token)
         case _:
             return super.visit(token)
         }
