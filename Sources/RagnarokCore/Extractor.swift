@@ -71,15 +71,15 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         print("result: --------- \n " + result.description + "\n --------- ")
     }
 
-    private func parentIndent(token: Syntax) -> Int {
-        guard let parent = token.parent else {
+    private func parentIndent(syntax: Syntax) -> Int {
+        guard let parent = syntax.parent else {
             return 0
         }
         return indent(from: parent)
     }
     
-    private func indent(from token: Syntax) -> Int {
-        return token.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
+    private func indent(from syntax: Syntax) -> Int {
+        return syntax.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
     }
     
     
@@ -98,6 +98,128 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     var additionalIndent: Int {
         return Const.additionalIndent
     }
+    
+//    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
+//        let isNotMultipleFunctionArgument = node
+//            .children
+//            .compactMap({ $0 as? TokenSyntax })
+//            .filter { token in
+//                switch token.tokenKind {
+//                case .comma:
+//                    return true
+//                case _:
+//                    return false
+//                }
+//            }
+//            .isEmpty
+//
+//        if isNotMultipleFunctionArgument {
+//            return super.visit(node)
+//        }
+//
+//        guard let parent = findParent(from: node, to: FunctionDeclSyntax.self) else {
+//            assertionFailure()
+//            return super.visit(node)
+//        }
+//
+//
+//        var newParameterList = node
+//        let baseIndent = indent(from: parent)
+//        for (offset, parameter) in node.enumerated() {
+//            let isLast = (offset + 1) == node.endIndex
+//            switch isLast {
+//            case false:
+//                let comma = SyntaxFactory
+//                    .makeCommaToken()
+//                    .withTrailingTrivia(
+//                        Trivia(
+//                            arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
+//                        )
+//                )
+//
+//                newParameterList = newParameterList.replacing(
+//                    childAt: offset,
+//                    with: parameter.withTrailingComma(comma)
+//                )
+//            case true:
+//                let comma = SyntaxFactory
+//                    .makeCommaToken()
+//                    .withTrailingTrivia(
+//                        Trivia(
+//                            arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
+//                        )
+//                )
+//                //                parameter
+//                //                    .withTrailingComma(<#T##newChild: TokenSyntax?##TokenSyntax?#>)
+//            }
+//        }
+//
+//
+//        return super.visit(node)
+//    }
+    
+    
+    
+    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
+        if node.parameterList.count == 1 {
+            return super.visit(node)
+        }
+        
+        guard let functionalParentSyntax = findParent(from: node, to: FunctionDeclSyntax.self) else {
+            return super.visit(node)
+        }
+        
+        func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
+            var newParameterList = node
+            let indent = parentIndent(syntax: node) + additionalIndent * 2
+            for (offset, parameter) in node.enumerated() {
+                switchFirstName: switch parameter.firstName {
+                case .none:
+                    break switchFirstName
+                case .some(let firstName):
+                    let leadingTrivia = firstName
+                        .leadingTrivia
+                        .reduce(Trivia(pieces: []), { (result, piece) in
+                            switch piece {
+                            case .newlines:
+                                return result
+                            case _:
+                                return result.appending(piece)
+                            }
+                        })
+                        .appending(.newlines(1))
+                        .appending(.spaces(indent))
+                    
+                    newParameterList = newParameterList.replacing(
+                        childAt: offset,
+                        with: parameter.withFirstName(firstName.withLeadingTrivia(leadingTrivia))
+                    )
+                }
+            }
+            
+            return newParameterList
+        }
+        
+        let indent = parentIndent(syntax: functionalParentSyntax) + additionalIndent
+        let leadingTrivia = node
+            .rightParen
+            .leadingTrivia
+            .reduce(Trivia(pieces: []), { (result, piece) in
+                switch piece {
+                case .newlines:
+                    return result
+                case _:
+                    return result.appending(piece)
+                }
+            })
+            .appending(.newlines(1))
+            .appending(.spaces(indent))
+        
+        return node
+            .withParameterList(makeSyntax(node: node.parameterList))
+            .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
+    }
+
 
 
 //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
