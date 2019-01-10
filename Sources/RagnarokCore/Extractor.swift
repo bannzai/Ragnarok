@@ -44,6 +44,10 @@ public struct FileFinderImpl: FileFinder {
     func ellipseVariablePattern(fuga: String, piyo: Int) {
         
     }
+    
+    func trailingClosurePattern(fuga: String, piyo: Int, closure: () -> Void) {
+        
+    }
 
     public init() {
         multipleline(
@@ -78,9 +82,14 @@ public struct FileFinderImpl: FileFinder {
         hasReturnValue(fuga: "", piyo: 1)
         ellipseFunctionPattern("", 1)
         
+        trailingClosurePattern(fuga: "", piyo: 1) {
+            
+        }
+        
         [1].reduce(2) { (result, element)  in
             return result + element
         }
+
         [1].reduce(2, { (result, element)  in
             return result + element
         })
