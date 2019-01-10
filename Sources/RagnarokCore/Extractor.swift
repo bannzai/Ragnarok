@@ -23,14 +23,12 @@ public struct FileFinderImpl: FileFinder {
 
     public init() {
         multipleline(
+            
             firstName: "",
+            
             firstNameForSecondArgument: 0
         )
-        let _ = multipleline(
-            firstName: "",
-            firstNameForSecondArgument: 0
-        )
-        
+
         oneline(fuga: "", piyo: 0)
     }
 }
@@ -187,23 +185,30 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         
         let baseIndent = parentIndent(syntax: node)
-        var newNode = node.withArgumentList(makeSyntax(node: node.argumentList))
+        var newNode = node
+        
         if let leftParen = node.leftParen {
             newNode = newNode
                 .withLeftParen(
-                    leftParen.withTrailingTrivia(
-                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
+                    leftParen
+                        .withoutTrivia()
+                        .withTrailingTrivia(
+                            Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
+                            )
                     )
-                )
             )
         }
+        
+       newNode = newNode.withArgumentList(makeSyntax(node: node.argumentList))
         
         if let rightParen = node.rightParen {
             newNode = newNode
                 .withRightParen(
-                    rightParen.withLeadingTrivia(
-                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent)
-                        )
+                    rightParen
+                        .withoutTrivia()
+                        .withLeadingTrivia(
+                            Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent)
+                            )
                     )
             )
         }
