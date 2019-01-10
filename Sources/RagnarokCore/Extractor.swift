@@ -103,7 +103,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     }
     
     private func indent(from syntax: Syntax) -> Int {
-        return syntax.leadingTrivia?.sourceLength.columnsAtLastLine ?? 0
+        return syntax.leadingTriviaLength.columnsAtLastLine
     }
     
     
@@ -190,9 +190,12 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             return super.visit(node)
         }
         
-        func makeSyntax(node: FunctionCallArgumentListSyntax) -> FunctionCallArgumentListSyntax {
+        func makeSyntax(
+            node: FunctionCallArgumentListSyntax,
+            mostLeadingIndent: Int
+            ) -> FunctionCallArgumentListSyntax {
             var newParameterList = node
-            let indent = parentIndent(syntax: node) + additionalIndent
+            let indent = mostLeadingIndent + additionalIndent
             for (offset, parameter) in node.enumerated() {
                 var newParamter = parameter
                 
@@ -224,7 +227,12 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         let baseIndent = parentIndent(syntax: node)
         var newNode = node
         
-        newNode = newNode.withArgumentList(makeSyntax(node: node.argumentList))
+        newNode = newNode.withArgumentList(
+            makeSyntax(
+                node: node.argumentList,
+                mostLeadingIndent: baseIndent
+            )
+        )
 
         if let leftParen = newNode.leftParen {
             newNode = newNode
