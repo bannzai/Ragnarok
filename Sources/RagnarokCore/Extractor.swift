@@ -45,6 +45,12 @@ public struct FileFinderImpl: FileFinder {
             firstName: "",
             firstNameForSecondArgument: 0
         )
+        
+        let one = oneline(fuga: "string", piyo: 0)
+        let multi = multipleline(
+            firstName: "",
+            firstNameForSecondArgument: 0
+        )
 
         singleArgumentFunc(fuga: 1)
         oneline(fuga: "", piyo: 0)
