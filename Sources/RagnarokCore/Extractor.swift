@@ -149,8 +149,11 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             return super.visit(node)
         }
         
-        guard let functionalParentSyntax = findParent(from: node, to: FunctionDeclSyntax.self) else {
-            return super.visit(node)
+        guard let functionalParentSyntax = findParent(
+            from: node,
+            to: FunctionDeclSyntax.self
+            ) else {
+                return super.visit(node)
         }
         
         func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
@@ -253,6 +256,12 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         if let inReturn = findParent(from: node, to: ReturnStmtSyntax.self) {
             baseIndent = indent(from: inReturn)
+        }
+        if let inGuard = findParent(from: node, to: GuardStmtSyntax.self) {
+            baseIndent = indent(from: inGuard)
+        }
+        if let inIf = findParent(from: node, to: IfStmtSyntax.self) {
+            baseIndent = indent(from: inIf)
         }
 
         var newNode = node
