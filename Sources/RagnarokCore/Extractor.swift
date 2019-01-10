@@ -99,67 +99,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         return Const.indent
     }
     
-//    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
-//        let isNotMultipleFunctionArgument = node
-//            .children
-//            .compactMap({ $0 as? TokenSyntax })
-//            .filter { token in
-//                switch token.tokenKind {
-//                case .comma:
-//                    return true
-//                case _:
-//                    return false
-//                }
-//            }
-//            .isEmpty
-//
-//        if isNotMultipleFunctionArgument {
-//            return super.visit(node)
-//        }
-//
-//        guard let parent = findParent(from: node, to: FunctionDeclSyntax.self) else {
-//            assertionFailure()
-//            return super.visit(node)
-//        }
-//
-//
-//        var newParameterList = node
-//        let baseIndent = indent(from: parent)
-//        for (offset, parameter) in node.enumerated() {
-//            let isLast = (offset + 1) == node.endIndex
-//            switch isLast {
-//            case false:
-//                let comma = SyntaxFactory
-//                    .makeCommaToken()
-//                    .withTrailingTrivia(
-//                        Trivia(
-//                            arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
-//                        )
-//                )
-//
-//                newParameterList = newParameterList.replacing(
-//                    childAt: offset,
-//                    with: parameter.withTrailingComma(comma)
-//                )
-//            case true:
-//                let comma = SyntaxFactory
-//                    .makeCommaToken()
-//                    .withTrailingTrivia(
-//                        Trivia(
-//                            arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
-//                        )
-//                )
-//                //                parameter
-//                //                    .withTrailingComma(<#T##newChild: TokenSyntax?##TokenSyntax?#>)
-//            }
-//        }
-//
-//
-//        return super.visit(node)
-//    }
-    
-    
-    
+
     public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
         if node.parameterList.count <= 1 {
             return super.visit(node)
@@ -270,49 +210,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         
         return newNode
     }
-    
-
-    //    public override func visit(_ node: FunctionParameterSyntax) -> Syntax {
-//        if node.totalLength.newlines != 0 {
-//            return node
-//        }
-//
-//        guard let trailingComma = node.trailingComma else {
-//            return node
-//        }
-//
-//        let syntax = trailingComma.withTrailingTrivia(Trivia(
-//            pieces: [.newlines(1)]
-//        ))
-//        return node.withTrailingComma(syntax)
-//    }
-
-//    public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
-//        node.parent as? FunctionDeclSyntax
-//    }
-    
-//    public override func visit(_ node: FunctionParameterListSyntax) -> Syntax {
-//        if node.totalLength.newlines != 0 {
-//            return node
-//        }
-//
-//        let text = node
-//            .description
-//            .replacingOccurrences(of: "\n", with: "")
-//            .components(separatedBy: ",")
-//            .joined(separator: "\n")
-//
-//        let syntax: FunctionParameterListSyntax!
-//
-//        FunctionParameterSyntax { (builder) in
-//            builder.use
-//        }
-//
-//        node.replacing(childAt: <#T##Int#>, with: FunctionParameterSyntax)
-//
-//
-//        return node
-//    }
 }
 
 extension FunctionDeclArgumentsReWriter {
