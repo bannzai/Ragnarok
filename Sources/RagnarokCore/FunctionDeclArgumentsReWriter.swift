@@ -183,10 +183,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 
 // MARK: - Interface
 extension FunctionDeclArgumentsReWriter {
-    public func exec() {
-        let sourceFile = try! SyntaxTreeParser.parse(paths.first!)
-        let result = visit(sourceFile)
-        print("result: --------- \n " + result.description + "\n --------- ")
+    public func exec() throws {
+        let parsed = try paths.map(SyntaxTreeParser.parse).map(visit)
     }
 }
 
