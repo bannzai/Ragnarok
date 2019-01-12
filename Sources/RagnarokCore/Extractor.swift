@@ -1,17 +1,6 @@
 import Foundation
 import SwiftSyntax
 
-public enum RagnarokCoreErrorType: Error {
-    case missingFilePath(path: String)
-    
-    var localizedDescription: String {
-        switch self {
-        case .missingFilePath(let path):
-            return "Can not find swift file at \(path)"
-        }
-    }
-}
-
 public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     public let paths: [URL]
     
