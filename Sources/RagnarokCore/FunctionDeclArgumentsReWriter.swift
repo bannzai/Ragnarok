@@ -211,7 +211,6 @@ private extension FunctionDeclArgumentsReWriter {
         return syntax.leadingTriviaLength.columnsAtLastLine
     }
     
-    
     func findParent<T: Syntax>(from syntax: Syntax, to goalType: T.Type) -> T? {
         guard let next = syntax.parent else {
             return nil
