@@ -10,6 +10,10 @@ public struct FileFinderImpl: FileFinder {
     public func isNotExists(at path: String) -> Bool {
         return !FileManager.default.fileExists(atPath: path)
     }
+    
+    public init() {
+        
+    }
 }
 
 public enum RagnarokCoreErrorType: Error {
