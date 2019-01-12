@@ -5,94 +5,10 @@ public protocol FileFinder {
     func isNotExists(at path: String) -> Bool
 }
 
+
 public struct FileFinderImpl: FileFinder {
     public func isNotExists(at path: String) -> Bool {
         return !FileManager.default.fileExists(atPath: path)
-    }
-    
-    public func noArgument() {
-        
-    }
-    
-    public func singleArgumentFunc(fuga: Int) {
-        
-    }
-    
-    public func oneline(fuga: String, piyo: Int) {
-        
-    }
-    
-    public func multipleline(
-        firstName secondName: String,
-        firstNameForSecondArgument: Int
-        ) {
-        
-    }
-    
-    func hasReturnValue() -> Void {
-        
-    }
-    
-    func hasReturnValue(fuga: String, piyo: Int) -> Void {
-        
-    }
-    
-    func ellipseFunctionPattern(_ fuga: String, _ piyo: Int) {
-        
-    }
-    
-    func ellipseVariablePattern(fuga: String, piyo: Int) {
-        
-    }
-    
-    func trailingClosurePattern(fuga: String, piyo: Int, closure: () -> Void) {
-        
-    }
-
-    public init() {
-        multipleline(
-            
-            firstName: "",
-            
-            firstNameForSecondArgument: 0
-        )
-        
-        multipleline(
-            firstName: "",
-            firstNameForSecondArgument: 0
-        )
-        
-        let one = oneline(fuga: "string", piyo: 0)
-        let multi = multipleline(
-            firstName: "",
-            firstNameForSecondArgument: 0
-        )
-        
-        let _ = oneline(fuga: "string", piyo: 0)
-        _ = multipleline(
-            firstName: "",
-            firstNameForSecondArgument: 0
-        )
-        _ = ellipseVariablePattern(fuga: "", piyo: 1)
-
-        singleArgumentFunc(fuga: 1)
-        oneline(fuga: "", piyo: 0)
-        noArgument()
-        hasReturnValue()
-        hasReturnValue(fuga: "", piyo: 1)
-        ellipseFunctionPattern("", 1)
-        
-        trailingClosurePattern(fuga: "", piyo: 1) {
-            
-        }
-        
-        [1].reduce(2) { (result, element)  in
-            return result + element
-        }
-
-        [1].reduce(2, { (result, element)  in
-            return result + element
-        })
     }
 }
 
@@ -130,34 +46,6 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         let sourceFile = try! SyntaxTreeParser.parse(paths.first!)
         let result = visit(sourceFile)
         print("result: --------- \n " + result.description + "\n --------- ")
-    }
-
-    private func parentIndent(syntax: Syntax) -> Int {
-        guard let parent = syntax.parent else {
-            return 0
-        }
-        return indent(from: parent)
-    }
-    
-    private func indent(from syntax: Syntax) -> Int {
-        return syntax.leadingTriviaLength.columnsAtLastLine
-    }
-    
-    
-    func findParent<T: Syntax>(from syntax: Syntax, to goalType: T.Type) -> T? {
-        guard let next = syntax.parent else {
-            return nil
-        }
-        
-        if let target = next as? T {
-            return target
-        }
-
-        return findParent(from: next, to: goalType)
-    }
-    
-    var additionalIndent: Int {
-        return Const.indent
     }
 
     public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
@@ -324,4 +212,36 @@ extension FunctionDeclArgumentsReWriter {
     struct Const {
         static let indent = 4
     }
+}
+
+private extension FunctionDeclArgumentsReWriter {
+    private func parentIndent(syntax: Syntax) -> Int {
+        guard let parent = syntax.parent else {
+            return 0
+        }
+        return indent(from: parent)
+    }
+    
+    private func indent(from syntax: Syntax) -> Int {
+        return syntax.leadingTriviaLength.columnsAtLastLine
+    }
+    
+    
+    func findParent<T: Syntax>(from syntax: Syntax, to goalType: T.Type) -> T? {
+        guard let next = syntax.parent else {
+            return nil
+        }
+        
+        if let target = next as? T {
+            return target
+        }
+        
+        return findParent(from: next, to: goalType)
+    }
+    
+    var additionalIndent: Int {
+        return Const.indent
+    }
+    
+
 }
