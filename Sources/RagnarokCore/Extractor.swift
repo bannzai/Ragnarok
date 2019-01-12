@@ -31,7 +31,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         paths = rawURLPaths.map(URL.init(fileURLWithPath:))
     }
     
-    public func done() {
+    public func exec() {
         let sourceFile = try! SyntaxTreeParser.parse(paths.first!)
         let result = visit(sourceFile)
         print("result: --------- \n " + result.description + "\n --------- ")

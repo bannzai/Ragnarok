@@ -7,6 +7,6 @@ print(arguments)
 let path = arguments[1]
 print("path: \(path)")
 
-try! FunctionDeclArgumentsReWriter(path: path).done()
+try! FunctionDeclArgumentsReWriter(path: path).exec()
 
 exit(0)
