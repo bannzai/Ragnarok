@@ -51,7 +51,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 
         func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
             var newParameterList = node
-            let indent = parentIndent(syntax: node) + additionalIndent * 2
+            let indent = parentIndent(syntax: node) + Const.indent * 2
             for (offset, parameter) in node.enumerated() {
                 switchFirstName: switch parameter.firstName {
                 case .none:
@@ -80,7 +80,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             return newParameterList
         }
 
-        let indent = parentIndent(syntax: functionalParentSyntax) + additionalIndent
+        let indent = parentIndent(syntax: functionalParentSyntax) + Const.indent
         let leadingTrivia = node
             .rightParen
             .leadingTrivia
@@ -111,7 +111,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             mostLeadingIndent: Int
             ) -> FunctionCallArgumentListSyntax {
             var newParameterList = node
-            let indent = mostLeadingIndent + additionalIndent
+            let indent = mostLeadingIndent + Const.indent
             for (offset, parameter) in node.enumerated() {
                 var newParamter = parameter
                 
@@ -156,7 +156,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         }
         if let inGuard = findParent(from: node, to: GuardStmtSyntax.self) {
             baseIndent = indent(from: inGuard)
-            adjustmentRightParenIndent = additionalIndent
+            adjustmentRightParenIndent = Const.indent
         }
         if let inIf = findParent(from: node, to: IfStmtSyntax.self) {
             baseIndent = indent(from: inIf)
@@ -176,7 +176,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                 .withLeftParen(
                     leftParen
                         .withTrailingTrivia(
-                            Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + additionalIndent)
+                            Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + Const.indent)
                             )
                     )
             )
@@ -227,10 +227,4 @@ private extension FunctionDeclArgumentsReWriter {
         
         return findParent(from: next, to: goalType)
     }
-    
-    var additionalIndent: Int {
-        return Const.indent
-    }
-    
-
 }
