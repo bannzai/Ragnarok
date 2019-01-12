@@ -1,21 +1,6 @@
 import Foundation
 import SwiftSyntax
 
-public protocol FileFinder {
-    func isNotExists(at path: String) -> Bool
-}
-
-
-public struct FileFinderImpl: FileFinder {
-    public func isNotExists(at path: String) -> Bool {
-        return !FileManager.default.fileExists(atPath: path)
-    }
-    
-    public init() {
-        
-    }
-}
-
 public enum RagnarokCoreErrorType: Error {
     case missingFilePath(path: String)
     
