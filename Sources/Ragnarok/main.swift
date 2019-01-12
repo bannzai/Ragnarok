@@ -7,6 +7,11 @@ print(arguments)
 let path = arguments[1]
 print("path: \(path)")
 
-try! FunctionDeclArgumentsReWriter(path: path).exec()
+do {
+    try FunctionDeclArgumentsReWriter(path: path).exec()
+} catch {
+    print(error.localizedDescription)
+    exit(1)
+}
 
 exit(0)
