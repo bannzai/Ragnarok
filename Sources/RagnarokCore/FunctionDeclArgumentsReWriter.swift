@@ -20,24 +20,19 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         paths = rawURLPaths.map(URL.init(fileURLWithPath:))
     }
     
-    public func exec() {
-        let sourceFile = try! SyntaxTreeParser.parse(paths.first!)
-        let result = visit(sourceFile)
-        print("result: --------- \n " + result.description + "\n --------- ")
-    }
-
+    // MARK: - SyntaxRewriter
     public override func visit(_ node: ParameterClauseSyntax) -> Syntax {
         if node.parameterList.count <= 1 {
             return super.visit(node)
         }
-
+        
         guard let functionalParentSyntax = findParent(
             from: node,
             to: FunctionDeclSyntax.self
             ) else {
                 return super.visit(node)
         }
-
+        
         func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
             var newParameterList = node
             let indent = parentIndent(syntax: node) + Const.indent * 2
@@ -58,17 +53,17 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                         })
                         .appending(.newlines(1))
                         .appending(.spaces(indent))
-
+                    
                     newParameterList = newParameterList.replacing(
                         childAt: offset,
                         with: parameter.withFirstName(firstName.withLeadingTrivia(leadingTrivia))
                     )
                 }
             }
-
+            
             return newParameterList
         }
-
+        
         let indent = parentIndent(syntax: functionalParentSyntax) + Const.indent
         let leadingTrivia = node
             .rightParen
@@ -83,12 +78,12 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             })
             .appending(.newlines(1))
             .appending(.spaces(indent))
-
+        
         return node
             .withParameterList(makeSyntax(node: node.parameterList))
             .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
     }
-
+    
     
     public override func visit(_ node: FunctionCallExprSyntax) -> ExprSyntax {
         if node.argumentList.count <= 1 {
@@ -150,7 +145,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         if let inIf = findParent(from: node, to: IfStmtSyntax.self) {
             baseIndent = indent(from: inIf)
         }
-
+        
         var newNode = node
         
         newNode = newNode.withArgumentList(
@@ -159,7 +154,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                 mostLeadingIndent: baseIndent
             )
         )
-
+        
         if let leftParen = newNode.leftParen {
             newNode = newNode
                 .withLeftParen(
@@ -170,7 +165,7 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
                     )
             )
         }
-
+        
         if let rightParen = newNode.rightParen {
             newNode = newNode
                 .withRightParen(
@@ -186,12 +181,24 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     }
 }
 
+// MARK: - Interface
+extension FunctionDeclArgumentsReWriter {
+    public func exec() {
+        let sourceFile = try! SyntaxTreeParser.parse(paths.first!)
+        let result = visit(sourceFile)
+        print("result: --------- \n " + result.description + "\n --------- ")
+    }
+}
+
+
+// MARK: - Const
 extension FunctionDeclArgumentsReWriter {
     struct Const {
         static let indent = 4
     }
 }
 
+// MARK: - Private
 private extension FunctionDeclArgumentsReWriter {
     private func parentIndent(syntax: Syntax) -> Int {
         guard let parent = syntax.parent else {
