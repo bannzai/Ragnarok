@@ -184,7 +184,13 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 // MARK: - Interface
 extension FunctionDeclArgumentsReWriter {
     public func exec() throws {
-        let parsed = try paths.map(SyntaxTreeParser.parse).map(visit)
+        let parsedList = try paths
+            .map(SyntaxTreeParser.parse)
+            .map(visit)
+
+        try zip(parsedList, paths).forEach { parsed, path in
+            try parsed.description.write(to: path, atomically: true, encoding: .utf8)
+        }
     }
 }
 
