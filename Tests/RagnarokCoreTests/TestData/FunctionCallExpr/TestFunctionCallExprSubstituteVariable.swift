@@ -10,6 +10,6 @@ public class TestFunctionCallExprSubstituteVariable: TestDatable {
         let b = test.oneArgumentHasReturnKeyword(argument: 1)
         let c = test.twoArgumentHasReturnKeyword(argument1: 1, argument2: "string")
         
-        print(a,b,c)
+        print(a!,b!,c!)
     }
 }
