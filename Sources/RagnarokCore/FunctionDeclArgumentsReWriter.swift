@@ -145,6 +145,9 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
         if let inIf = findParent(from: node, to: IfStmtSyntax.self) {
             baseIndent = indent(from: inIf)
         }
+        if let forTryKeyword = findParent(from: node, to: TryExprSyntax.self) {
+            baseIndent = indent(from: forTryKeyword)
+        }
         
         var newNode = node
         
