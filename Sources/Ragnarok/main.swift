@@ -8,7 +8,7 @@ let path = arguments[1]
 print("path: \(path)")
 
 do {
-    try FunctionDeclArgumentsReWriter(path: path).exec()
+    try RagnarokRewriter(path: path).exec()
 } catch {
     print(error.localizedDescription)
     exit(1)

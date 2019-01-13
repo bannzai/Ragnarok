@@ -2,7 +2,7 @@ import XCTest
 import class Foundation.Bundle
 @testable import RagnarokCore
 
-final class FunctionDeclArgumentsReWriterTests: XCTestCase {
+final class RagnarokRewriterTests: XCTestCase {
     func testFormatted() throws {
         try XCTContext.runActivity(named: "Test visit of FunctionCallExprSyntax") { (activity) in
             try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprNoReturn") { (activity) in
@@ -26,7 +26,7 @@ public class TestFunctionCallExprNoReturn: TestDatable {
 }
 
 """
-                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
             
@@ -64,7 +64,7 @@ public class TestFunctionCallExprInGuard: TestDatable {
 }
 
 """
-                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
             
@@ -95,7 +95,7 @@ public class TestFunctionCallExprInIf: TestDatable {
 }
 
 """
-                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
             
@@ -126,7 +126,7 @@ public class TestFunctionCallExprSubstituteVariable: TestDatable {
 }
 
 """
-                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
             
@@ -151,7 +151,7 @@ public class TestFunctionCallExprUsingTryKeyword: TestDatable {
 }
 
 """
-                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
             
@@ -176,7 +176,7 @@ public class TestFunctionCallExprforDiscardAssignment: TestDatable {
 }
 
 """
-                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
 
