@@ -1,20 +1,13 @@
-//
-//  TestFunctionDeclHasReturnKeyword.swift
-//  RagnarokCoreTests
-//
-//  Created by Yudai.Hirose on 2019/01/13.
-//
-
 import Foundation
 
-public class TestFunctionDeclHasReturnKeyword {
-    func noArgumentHasReturnKeyword() -> Void {
-        
+public class TestFunctionDeclHasReturnType {
+    func noArgumentHasReturnKeyword() -> Int {
+        return 1
     }
-    func oneArgumentHasReturnKeyword(argument: Int) -> Void {
-        
+    func oneArgumentHasReturnKeyword(argument: Int) -> Int {
+        return 1
     }
-    func twoArgumentHasReturnKeyword(argument1: Int, argument2: String) -> Void {
-        
+    func twoArgumentHasReturnKeyword(argument1: Int, argument2: String) -> Int {
+        return 1
     }
 }
