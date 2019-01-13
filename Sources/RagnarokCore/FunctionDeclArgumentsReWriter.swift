@@ -4,19 +4,11 @@ import SwiftSyntax
 public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     public let path: URL
     
-    public init(path urlString: String, fileManager: FileFinder = FileFinderImpl()) throws {
-        if fileManager.isNotExists(at: urlString) {
-            throw RagnarokCoreErrorType.missingFilePath(path: urlString)
-        }
-        
+    public init(path urlString: String) throws {
         path = URL.init(fileURLWithPath: urlString)
     }
     
-    public init(path url: URL, fileManager: FileFinder = FileFinderImpl()) throws {
-        if fileManager.isNotExists(at: url.absoluteString) {
-            throw RagnarokCoreErrorType.missingFilePath(path: url.absoluteString)
-        }
-
+    public init(path url: URL) throws {
         path = url
     }
     

@@ -7,6 +7,10 @@
 
 import Foundation
 
+public protocol Rewriter {
+    
+}
+
 public class RagnarokRewriter: SyntaxRewriter {
     
 }
