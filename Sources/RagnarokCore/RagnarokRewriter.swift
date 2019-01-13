@@ -29,51 +29,62 @@ public class RagnarokRewriter: SyntaxRewriter {
             var newParameterList = node
             let indent = parentIndent(syntax: node) + Const.indent * 2
             for (offset, parameter) in node.enumerated() {
+                var newParamter = parameter
+                
+                let isLast = (offset + 1) == node.endIndex
+                switchIsLast: switch isLast {
+                case false:
+                    let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
+                    newParamter = newParamter.withTrailingComma(comma)
+                case true:
+                    break switchIsLast
+                }
+
                 switchFirstName: switch parameter.firstName {
                 case .none:
                     break switchFirstName
                 case .some(let firstName):
-                    let leadingTrivia = firstName
-                        .leadingTrivia
-                        .reduce(Trivia(pieces: []), { (result, piece) in
-                            switch piece {
-                            case .newlines:
-                                return result
-                            case _:
-                                return result.appending(piece)
-                            }
-                        })
-                        .appending(.newlines(1))
-                        .appending(.spaces(indent))
-                    
-                    newParameterList = newParameterList.replacing(
-                        childAt: offset,
-                        with: parameter.withFirstName(firstName.withLeadingTrivia(leadingTrivia))
-                    )
+                    newParamter = newParamter.withFirstName(firstName)
                 }
+                
+                newParameterList = newParameterList.replacing(
+                    childAt: offset,
+                    with: newParamter
+                )
             }
-            
             return newParameterList
         }
         
-        let indent = parentIndent(syntax: functionalParentSyntax) + Const.indent
-        let leadingTrivia = node
-            .rightParen
-            .leadingTrivia
-            .reduce(Trivia(pieces: []), { (result, piece) in
-                switch piece {
-                case .newlines:
-                    return result
-                case _:
-                    return result.appending(piece)
-                }
-            })
-            .appending(.newlines(1))
-            .appending(.spaces(indent))
+        let baseIndent = parentIndent(syntax: functionalParentSyntax)
+        var newNode = node
+
+        newNode = newNode.withParameterList(
+            makeSyntax(
+                node: node.parameterList
+            )
+        )
         
-        return node
-            .withParameterList(makeSyntax(node: node.parameterList))
-            .withRightParen(node.rightParen.withLeadingTrivia(leadingTrivia))
+        let leftParen = newNode.leftParen
+        newNode = newNode
+            .withLeftParen(
+                leftParen
+                    .withTrailingTrivia(
+                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + Const.indent)
+                        )
+                )
+        )
+        
+        let rightParen = newNode.rightParen
+        newNode = newNode
+            .withRightParen(
+                rightParen
+                    .withLeadingTrivia(
+                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent)
+                        )
+                )
+        )
+
+        return newNode
     }
     
     
