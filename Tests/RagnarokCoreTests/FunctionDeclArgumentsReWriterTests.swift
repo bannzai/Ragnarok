@@ -42,16 +42,16 @@ public class TestFunctionCallExprInGuard: TestDatable {
     func example() {
         let test = TestFunctionDeclHasReturnType()
         
-        guard let a = Optional(test.noArgumentHasReturnKeyword()) else {
+        guard let a = test.noArgumentHasReturnKeyword() else {
             return
         }
-        guard let b = Optional(test.oneArgumentHasReturnKeyword(argument: 1)) else {
+        guard let b = test.oneArgumentHasReturnKeyword(argument: 1) else {
             return
         }
-        guard let c = Optional(test.twoArgumentHasReturnKeyword(
+        guard let c = test.twoArgumentHasReturnKeyword(
             argument1: 1,
             argument2: "string"
-        )) else {
+            ) else {
             return
         }
         
@@ -79,16 +79,16 @@ public class TestFunctionCallExprInIf: TestDatable {
     }
     func example() {
         let test = TestFunctionDeclHasReturnType()
-        if let a = Optional(test.noArgumentHasReturnKeyword()) {
+        if let a = test.noArgumentHasReturnKeyword() {
             print(a)
         }
-        if let b = Optional(test.oneArgumentHasReturnKeyword(argument: 1)) {
+        if let b = test.oneArgumentHasReturnKeyword(argument: 1) {
             print(b)
         }
-        if let c = Optional(test.twoArgumentHasReturnKeyword(
+        if let c = test.twoArgumentHasReturnKeyword(
             argument1: 1,
             argument2: "string"
-        )) {
+            ) {
             print(c)
         }
     }

@@ -143,7 +143,8 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
             adjustmentRightParenIndent = Const.indent
         }
         if let inIf = findParent(from: node, to: IfStmtSyntax.self) {
-            baseIndent = indent(from: inIf)
+            baseIndent = indent(from: inIf) 
+            adjustmentRightParenIndent = Const.indent
         }
         if let forTryKeyword = findParent(from: node, to: TryExprSyntax.self) {
             baseIndent = indent(from: forTryKeyword)
