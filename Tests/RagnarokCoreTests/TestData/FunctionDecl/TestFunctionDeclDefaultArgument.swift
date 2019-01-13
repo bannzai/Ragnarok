@@ -12,5 +12,3 @@ public class TestFunctionDeclDefaultArgument: TestDatable {
         
     }
 }
-
-
