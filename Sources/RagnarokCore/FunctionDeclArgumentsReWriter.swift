@@ -4,8 +4,8 @@ import SwiftSyntax
 public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
     public let path: URL
     
-    public init(path urlString: String) throws {
-        path = URL.init(fileURLWithPath: urlString)
+    convenience public init(path urlString: String) throws {
+        try self.init(path: URL.init(fileURLWithPath: urlString))
     }
     
     public init(path url: URL) throws {
