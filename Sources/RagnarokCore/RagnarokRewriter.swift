@@ -79,7 +79,7 @@ public class RagnarokRewriter: SyntaxRewriter {
             .withRightParen(
                 rightParen
                     .withLeadingTrivia(
-                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent)
+                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + Const.indent)
                         )
                 )
         )
