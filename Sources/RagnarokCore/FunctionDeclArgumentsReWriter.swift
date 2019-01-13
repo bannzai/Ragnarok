@@ -186,6 +186,9 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 
 // MARK: - Interface
 extension FunctionDeclArgumentsReWriter {
+    public func formatted() -> String {
+        
+    }
     public func exec() throws {
         let parsedList = try paths
             .map(SyntaxTreeParser.parse)
