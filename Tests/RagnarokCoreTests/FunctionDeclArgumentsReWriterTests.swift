@@ -67,6 +67,37 @@ public class TestFunctionCallExprInGuard: TestDatable {
                 let rewriter = try FunctionDeclArgumentsReWriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
+            
+            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprInIf") { (activity) in
+                let input = URL(string: TestFunctionCallExprInIf.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionCallExprInIf: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func example() {
+        let test = TestFunctionDeclHasReturnType()
+        if let a = Optional(test.noArgumentHasReturnKeyword()) {
+            print(a)
+        }
+        if let b = Optional(test.oneArgumentHasReturnKeyword(argument: 1)) {
+            print(b)
+        }
+        if let c = Optional(test.twoArgumentHasReturnKeyword(
+            argument1: 1,
+            argument2: "string"
+        )) {
+            print(c)
+        }
+    }
+}
+
+"""
+                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
         }
     }
 }
