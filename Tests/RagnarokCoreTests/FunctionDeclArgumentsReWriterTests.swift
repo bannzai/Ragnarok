@@ -154,6 +154,31 @@ public class TestFunctionCallExprUsingTryKeyword: TestDatable {
                 let rewriter = try FunctionDeclArgumentsReWriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
+            
+            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprforDiscardAssignment") { (activity) in
+                let input = URL(string: TestFunctionCallExprforDiscardAssignment.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionCallExprforDiscardAssignment: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func example() {
+        let test = TestFunctionDeclHasReturnType()
+        _ = test.noArgumentHasReturnKeyword()
+        _ = test.oneArgumentHasReturnKeyword(argument: 1)
+        _ = test.twoArgumentHasReturnKeyword(
+            argument1: 1,
+            argument2: "string"
+        )
+    }
+}
+
+"""
+                let rewriter = try FunctionDeclArgumentsReWriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
 
         }
     }
