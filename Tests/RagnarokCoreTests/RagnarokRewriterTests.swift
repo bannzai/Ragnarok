@@ -354,6 +354,32 @@ public class TestFunctionDeclDiscardLabel: TestDatable {
                 let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
+            
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDefaultArgument") { (activity) in
+                let input = URL(string: TestFunctionDeclDefaultArgument.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclDefaultArgument: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    
+    func oneArgument(argument1: Int = 1) {
+        
+    }
+    func multipleArgument(
+        argument1: Int = 1,
+        argument2: String = "string"
+        ) {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
 
         }
     }
