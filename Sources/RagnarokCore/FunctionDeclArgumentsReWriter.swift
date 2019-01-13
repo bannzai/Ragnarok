@@ -2,22 +2,22 @@ import Foundation
 import SwiftSyntax
 
 public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
-    public let paths: [URL]
+    public let path: URL
     
-    public init(path: String, fileManager: FileFinder = FileFinderImpl()) throws {
-        if fileManager.isNotExists(at: path) {
-            throw RagnarokCoreErrorType.missingFilePath(path: path)
+    public init(path urlString: String, fileManager: FileFinder = FileFinderImpl()) throws {
+        if fileManager.isNotExists(at: urlString) {
+            throw RagnarokCoreErrorType.missingFilePath(path: urlString)
         }
         
-        paths = [URL.init(fileURLWithPath: path)]
+        path = URL.init(fileURLWithPath: urlString)
     }
     
-    public init(paths rawURLPaths: [String], fileManager: FileFinder = FileFinderImpl()) throws {
-        if let notExistsPath = rawURLPaths.first(where: fileManager.isNotExists(at:)) {
-            throw RagnarokCoreErrorType.missingFilePath(path: notExistsPath)
+    public init(path url: URL, fileManager: FileFinder = FileFinderImpl()) throws {
+        if fileManager.isNotExists(at: url.absoluteString) {
+            throw RagnarokCoreErrorType.missingFilePath(path: url.absoluteString)
         }
 
-        paths = rawURLPaths.map(URL.init(fileURLWithPath:))
+        path = url
     }
     
     // MARK: - SyntaxRewriter
@@ -186,17 +186,12 @@ public class FunctionDeclArgumentsReWriter: SyntaxRewriter {
 
 // MARK: - Interface
 extension FunctionDeclArgumentsReWriter {
-    public func formatted() -> String {
-        
+    public func formatted() throws -> String {
+        return visit(try SyntaxTreeParser.parse(path)).description
     }
+    
     public func exec() throws {
-        let parsedList = try paths
-            .map(SyntaxTreeParser.parse)
-            .map(visit)
-
-        try zip(parsedList, paths).forEach { parsed, path in
-            try parsed.description.write(to: path, atomically: true, encoding: .utf8)
-        }
+        try formatted().write(to: path, atomically: true, encoding: .utf8)
     }
 }
 
