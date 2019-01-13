@@ -4,7 +4,7 @@ public class TestFunctionCallExprforDiscardAssignment: TestDatable {
     public static func file() -> String {
         return #file
     }
-    func example() {
+    public func example() {
         let test = TestFunctionDeclHasReturnType()
         _ = test.noArgumentHasReturnKeyword()
         _ = test.oneArgumentHasReturnKeyword(argument: 1)

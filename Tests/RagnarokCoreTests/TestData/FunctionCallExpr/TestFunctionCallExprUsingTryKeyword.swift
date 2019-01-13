@@ -4,7 +4,7 @@ public class TestFunctionCallExprUsingTryKeyword: TestDatable {
     public static func file() -> String {
         return #file
     }
-    func example() throws {
+    public func example() throws {
         let test = TestFunctionDeclUsingThrows()
         try test.noArgumentUsingThrowsKeyword()
         try test.oneArgumentUsingThrowsKeyword(argument1: 1)

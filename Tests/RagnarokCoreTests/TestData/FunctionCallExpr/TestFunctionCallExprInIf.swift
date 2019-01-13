@@ -4,7 +4,7 @@ public class TestFunctionCallExprInIf: TestDatable {
     public static func file() -> String {
         return #file
     }
-    func example() {
+    public func example() {
         let test = TestFunctionDeclHasReturnType()
         if let a = Optional(test.noArgumentHasReturnKeyword()) {
             print(a)

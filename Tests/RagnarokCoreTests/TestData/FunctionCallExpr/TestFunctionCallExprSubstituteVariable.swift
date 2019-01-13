@@ -4,7 +4,7 @@ public class TestFunctionCallExprSubstituteVariable: TestDatable {
     public static func file() -> String {
         return #file
     }
-    func example() {
+    public func example() {
         let test = TestFunctionDeclHasReturnType()
         let a = test.noArgumentHasReturnKeyword()
         let b = test.oneArgumentHasReturnKeyword(argument: 1)

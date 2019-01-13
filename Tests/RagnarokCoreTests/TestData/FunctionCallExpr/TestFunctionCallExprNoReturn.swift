@@ -4,7 +4,8 @@ public class TestFunctionCallExprNoReturn: TestDatable {
     public static func file() -> String {
         return #file
     }
-    func example() {
+    
+    public func example() {
         let test = TestFunctionDeclNoReturn()
         test.noArgumentNoReturn()
         test.oneArgumentNoReturn(argument: 1)
