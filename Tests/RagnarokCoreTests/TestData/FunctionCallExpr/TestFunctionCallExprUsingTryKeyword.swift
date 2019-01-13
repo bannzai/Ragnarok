@@ -1,6 +1,6 @@
 import Foundation
 
-public class TestFunctionCallExprUsingTryKeyword: TestDatable {
+public class TestFunctionCallExprUsingTryKeyword: FunctionCallExprTestDatable {
     public static func file() -> String {
         return #file
     }
@@ -26,6 +26,7 @@ public class TestFunctionCallExprNoReturn: TestDatable {
 """
         return expected
     }
+    
     public func example() throws {
         let test = TestFunctionDeclUsingThrows()
         try test.noArgumentUsingThrowsKeyword()

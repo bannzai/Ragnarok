@@ -1,6 +1,6 @@
 import Foundation
 
-public class TestFunctionCallExprInGuard: TestDatable {
+public class TestFunctionCallExprInGuard: FunctionCallExprTestDatable {
     public static func file() -> String {
         return #file
     }
