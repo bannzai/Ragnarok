@@ -1,13 +1,9 @@
-//
-//  TestFunctionDeclHasClosureArgument.swift
-//  RagnarokCoreTests
-//
-//  Created by Yudai.Hirose on 2019/01/13.
-//
-
 import Foundation
 
-public class TestFunctionDeclHasClosureArgument {
+public class TestFunctionDeclHasClosureArgument: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func closureNoEscaping(closure: () -> Void) {
         
     }

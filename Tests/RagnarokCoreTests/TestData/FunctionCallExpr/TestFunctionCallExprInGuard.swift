@@ -1,13 +1,9 @@
-//
-//  TestFunctionCallExprInGuard.swift
-//  RagnarokCoreTests
-//
-//  Created by Yudai.Hirose on 2019/01/13.
-//
-
 import Foundation
 
-public class TestFunctionCallExprInGuard {
+public class TestFunctionCallExprInGuard: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func example() {
         let test = TestFunctionDeclHasReturnType()
         

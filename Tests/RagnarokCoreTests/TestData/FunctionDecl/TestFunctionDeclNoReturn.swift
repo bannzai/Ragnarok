@@ -1,6 +1,9 @@
 import Foundation
 
-public class TestFunctionDeclNoReturn {
+public class TestFunctionDeclNoReturn: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func noArgumentNoReturn() {
         
     }

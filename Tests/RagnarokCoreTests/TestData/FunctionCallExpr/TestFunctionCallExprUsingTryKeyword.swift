@@ -1,6 +1,9 @@
 import Foundation
 
-public class TestFunctionCallExprUsingTryKeyword {
+public class TestFunctionCallExprUsingTryKeyword: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func example() throws {
         let test = TestFunctionDeclUsingThrows()
         try test.noArgumentUsingThrowsKeyword()

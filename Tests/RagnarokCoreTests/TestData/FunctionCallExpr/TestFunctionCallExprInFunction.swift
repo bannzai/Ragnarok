@@ -1,6 +1,9 @@
 import Foundation
 
-public class TestFunctionCallExprNoReturn {
+public class TestFunctionCallExprNoReturn: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func example() {
         let test = TestFunctionDeclNoReturn()
         test.noArgumentNoReturn()

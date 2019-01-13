@@ -1,6 +1,9 @@
 import Foundation
 
-public class TestFunctionDeclHasReturnType {
+public class TestFunctionDeclHasReturnType: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func noArgumentHasReturnKeyword() -> Int {
         return 1
     }

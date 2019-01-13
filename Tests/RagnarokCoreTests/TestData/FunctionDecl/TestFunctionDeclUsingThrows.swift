@@ -1,6 +1,9 @@
 import Foundation
 
-public class TestFunctionDeclUsingThrows {
+public class TestFunctionDeclUsingThrows: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func noArgumentUsingThrowsKeyword() throws {
         
     }

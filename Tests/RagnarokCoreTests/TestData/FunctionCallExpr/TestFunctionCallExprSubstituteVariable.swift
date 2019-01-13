@@ -1,6 +1,9 @@
 import Foundation
 
-public class TestFunctionCallExprSubstituteVariable {
+public class TestFunctionCallExprSubstituteVariable: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
     func example() {
         let test = TestFunctionDeclHasReturnType()
         let a = test.noArgumentHasReturnKeyword()
