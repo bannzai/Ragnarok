@@ -328,7 +328,32 @@ public class TestFunctionDeclMultipleLabel: TestDatable {
                 let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)
             }
+            
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDiscardLabel") { (activity) in
+                let input = URL(string: TestFunctionDeclDiscardLabel.file())!
+                let expected = """
+import Foundation
 
+public class TestFunctionDeclMultipleLabel: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    
+    func oneArgument(label1 argument1: Int) {
+        
+    }
+    func multipleArgument(
+        label1 argument1: Int,
+        label2 argument2: String
+        ) {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
 
         }
     }
