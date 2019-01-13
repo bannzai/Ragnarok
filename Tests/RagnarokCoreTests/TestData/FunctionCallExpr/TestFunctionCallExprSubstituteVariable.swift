@@ -1,6 +1,6 @@
 import Foundation
 
-public class TestFunctionCallExprSubstituteVariable: FunctionCallExprTestDatable {
+public class TestFunctionCallExprSubstituteVariable: TestDatable {
     public static func file() -> String {
         return #file
     }

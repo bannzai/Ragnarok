@@ -1,6 +1,6 @@
 import Foundation
 
-public class TestFunctionCallExprInIf: FunctionCallExprTestDatable {
+public class TestFunctionCallExprInIf: TestDatable {
     public static func file() -> String {
         return #file
     }

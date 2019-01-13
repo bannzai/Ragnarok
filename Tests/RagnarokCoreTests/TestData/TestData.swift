@@ -9,12 +9,7 @@ import Foundation
 
 public protocol TestDatable {
     static func file() -> String
-}
-
-public protocol FunctionDeclTestDatable: TestDatable {
-    
-}
-
-public protocol FunctionCallExprTestDatable: TestDatable {
     static func expected() -> String
+    
+    public func example()
 }

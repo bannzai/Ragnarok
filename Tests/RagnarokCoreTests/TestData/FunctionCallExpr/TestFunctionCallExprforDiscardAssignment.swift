@@ -1,6 +1,6 @@
 import Foundation
 
-public class TestFunctionCallExprforDiscardAssignment: FunctionCallExprTestDatable {
+public class TestFunctionCallExprforDiscardAssignment: TestDatable {
     public static func file() -> String {
         return #file
     }
