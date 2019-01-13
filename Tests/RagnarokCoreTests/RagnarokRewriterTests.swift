@@ -3,7 +3,7 @@ import class Foundation.Bundle
 @testable import RagnarokCore
 
 final class RagnarokRewriterTests: XCTestCase {
-    func testFormatted() throws {
+    func testFormattedForFunctionCallExpr() throws {
         try XCTContext.runActivity(named: "Test visit of FunctionCallExprSyntax") { (activity) in
             try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprNoReturn") { (activity) in
                 let input = URL(string: TestFunctionCallExprNoReturn.file())!
