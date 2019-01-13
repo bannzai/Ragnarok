@@ -7,13 +7,13 @@ public class TestFunctionCallExprInGuard: TestDatable {
     func example() {
         let test = TestFunctionDeclHasReturnType()
         
-        guard let a = Optional(test.noArgumentHasReturnKeyword()) else {
+        guard let a = test.noArgumentHasReturnKeyword() else {
             return
         }
-        guard let b = Optional(test.oneArgumentHasReturnKeyword(argument: 1)) else {
+        guard let b = test.oneArgumentHasReturnKeyword(argument: 1) else {
             return
         }
-        guard let c = Optional(test.twoArgumentHasReturnKeyword(argument1: 1, argument2: "string")) else {
+        guard let c = test.twoArgumentHasReturnKeyword(argument1: 1, argument2: "string") else {
             return
         }
         
