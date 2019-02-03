@@ -34,8 +34,17 @@ public class RagnarokRewriter: SyntaxRewriter {
                 let isLast = (offset + 1) == node.endIndex
                 switchIsLast: switch isLast {
                 case false:
-                    let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
-                    newParamter = newParamter.withTrailingComma(comma)
+                    switch newParamter.ellipsis {
+                    case let ellipsis? where ellipsis.text == ",":
+                        // It is bugs for SwiftSyntax
+                        // https://bugs.swift.org/browse/SR-9797
+                        // https://github.com/apple/swift/pull/22214
+                        let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
+                        newParamter = newParamter.withEllipsis(comma)
+                    case _:
+                        let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
+                        newParamter = newParamter.withTrailingComma(comma)
+                    }
                 case true:
                     break switchIsLast
                 }
