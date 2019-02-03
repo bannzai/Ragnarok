@@ -1,1 +1,17 @@
-print("Hello, world!")
+import Foundation
+import RagnarokCore
+
+print("start --- ")
+let arguments = ProcessInfo.processInfo.arguments
+print(arguments)
+let path = arguments[1]
+print("path: \(path)")
+
+do {
+    try RagnarokRewriter(path: path).exec()
+} catch {
+    print(error.localizedDescription)
+    exit(1)
+}
+
+exit(0)
