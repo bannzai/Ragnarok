@@ -4,7 +4,7 @@ public class TestFunctionDeclDiscardLabel: TestDatable {
     public static func file() -> String {
         return #file
     }
-    
+
     func oneArgument(_ argument1: Int) {
         
     }
@@ -12,4 +12,3 @@ public class TestFunctionDeclDiscardLabel: TestDatable {
         
     }
 }
-

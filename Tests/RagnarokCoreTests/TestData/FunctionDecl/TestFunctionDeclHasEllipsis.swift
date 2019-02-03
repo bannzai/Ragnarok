@@ -4,7 +4,7 @@ public class TestFunctionDeclHasEllipsis: TestDatable {
     public static func file() -> String {
         return #file
     }
-    
+
     func oneArgument(argument1: Int...) {
         
     }

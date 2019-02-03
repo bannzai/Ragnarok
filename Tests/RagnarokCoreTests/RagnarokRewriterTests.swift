@@ -185,201 +185,201 @@ public class TestFunctionCallExprforDiscardAssignment: TestDatable {
     
     func testFormattedForFunctionDecl() throws {
         try XCTContext.runActivity(named: "Test visit of FunctionDeclSyntax") { (activity) in
-//            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasClosureArgument") { (activity) in
-//                let input = URL(string: TestFunctionDeclHasClosureArgument.file())!
-//                let expected = """
-//import Foundation
-//
-//public class TestFunctionDeclHasClosureArgument: TestDatable {
-//    public static func file() -> String {
-//        return #file
-//    }
-//    func closureNoEscaping(closure: () -> Void) {
-//
-//    }
-//    func closureEscaping(closure: @escaping () -> Void) {
-//
-//    }
-//    func twoClosureNoEscaping(
-//        closure1: () -> Void,
-//        closure2: () -> Void
-//        ) {
-//
-//    }
-//    func twoClosureEscaping(
-//        closure1: @escaping () -> Void,
-//        closure2: @escaping () -> Void
-//        ) {
-//
-//    }
-//}
-//
-//"""
-//                let rewriter = try RagnarokRewriter(path: input)
-//                XCTAssertEqual(try rewriter.formatted(), expected)
-//            }
-//
-//            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasReturnType") { (activity) in
-//                let input = URL(string: TestFunctionDeclHasReturnType.file())!
-//                let expected = """
-//import Foundation
-//
-//public class TestFunctionDeclHasReturnType: TestDatable {
-//    public static func file() -> String {
-//        return #file
-//    }
-//    func noArgumentHasReturnKeyword() -> Int? {
-//        return 1
-//    }
-//    func oneArgumentHasReturnKeyword(argument: Int) -> Int? {
-//        return 1
-//    }
-//    func twoArgumentHasReturnKeyword(
-//        argument1: Int,
-//        argument2: String
-//        ) -> Int? {
-//        return 1
-//    }
-//}
-//
-//"""
-//                let rewriter = try RagnarokRewriter(path: input)
-//                XCTAssertEqual(try rewriter.formatted(), expected)
-//            }
-//
-//            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclNoReturn") { (activity) in
-//                let input = URL(string: TestFunctionDeclNoReturn.file())!
-//                let expected = """
-//import Foundation
-//
-//public class TestFunctionDeclNoReturn: TestDatable {
-//    public static func file() -> String {
-//        return #file
-//    }
-//    func noArgumentNoReturn() {
-//
-//    }
-//    func oneArgumentNoReturn(argument: Int) {
-//
-//    }
-//    func twoArgumentNoReturn(
-//        argument1: Int,
-//        argument2: String
-//        ) {
-//
-//    }
-//}
-//
-//"""
-//                let rewriter = try RagnarokRewriter(path: input)
-//                XCTAssertEqual(try rewriter.formatted(), expected)
-//            }
-//
-//            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclUsingThrows") { (activity) in
-//                let input = URL(string: TestFunctionDeclUsingThrows.file())!
-//                let expected = """
-//import Foundation
-//
-//public class TestFunctionDeclUsingThrows: TestDatable {
-//    public static func file() -> String {
-//        return #file
-//    }
-//    func noArgumentUsingThrowsKeyword() throws {
-//
-//    }
-//    func oneArgumentUsingThrowsKeyword(argument1: Int) throws {
-//
-//    }
-//    func multipleArgumentUsingThrowsKeyword(
-//        argument1: Int,
-//        argument2: String
-//        ) throws {
-//
-//    }
-//}
-//
-//"""
-//                let rewriter = try RagnarokRewriter(path: input)
-//                XCTAssertEqual(try rewriter.formatted(), expected)
-//            }
-//
-//            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclMultipleLabel") { (activity) in
-//                let input = URL(string: TestFunctionDeclMultipleLabel.file())!
-//                let expected = """
-//import Foundation
-//
-//public class TestFunctionDeclMultipleLabel: TestDatable {
-//    public static func file() -> String {
-//        return #file
-//    }
-//
-//    func oneArgument(label1 argument1: Int) {
-//
-//    }
-//    func multipleArgument(
-//        label1 argument1: Int,
-//        label2 argument2: String
-//        ) {
-//
-//    }
-//}
-//
-//"""
-//                let rewriter = try RagnarokRewriter(path: input)
-//                XCTAssertEqual(try rewriter.formatted(), expected)
-//            }
-//
-//            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDiscardLabel") { (activity) in
-//                let input = URL(string: TestFunctionDeclDiscardLabel.file())!
-//                let expected = """
-//import Foundation
-//
-//public class TestFunctionDeclDiscardLabel: TestDatable {
-//    public static func file() -> String {
-//        return #file
-//    }
-//
-//    func oneArgument(_ argument1: Int) {
-//
-//    }
-//    func multipleArgument(
-//        _ argument1: Int,
-//        _ argument2: String
-//        ) {
-//
-//    }
-//}
-//
-//"""
-//                let rewriter = try RagnarokRewriter(path: input)
-//                XCTAssertEqual(try rewriter.formatted(), expected)
-//            }
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasClosureArgument") { (activity) in
+                let input = URL(string: TestFunctionDeclHasClosureArgument.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclHasClosureArgument: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func closureNoEscaping(closure: () -> Void) {
         
-//            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDefaultArgument") { (activity) in
-//                let input = URL(string: TestFunctionDeclDefaultArgument.file())!
-//                let expected = """
-//import Foundation
-//
-//public class TestFunctionDeclDefaultArgument: TestDatable {
-//    public static func file() -> String {
-//        return #file
-//    }
-//
-//    func oneArgument(argument1: Int = 1) {
-//
-//    }
-//    func multipleArgument(
-//        argument1: Int = 1,
-//        argument2: String = "string"
-//        ) {
-//
-//    }
-//}
-//
-//"""
-//                let rewriter = try RagnarokRewriter(path: input)
-//                XCTAssertEqual(try rewriter.formatted(), expected)
-//            }
+    }
+    func closureEscaping(closure: @escaping () -> Void) {
+        
+    }
+    func twoClosureNoEscaping(
+        closure1: () -> Void,
+        closure2: () -> Void
+        ) {
+        
+    }
+    func twoClosureEscaping(
+        closure1: @escaping () -> Void,
+        closure2: @escaping () -> Void
+        ) {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
+
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasReturnType") { (activity) in
+                let input = URL(string: TestFunctionDeclHasReturnType.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclHasReturnType: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func noArgumentHasReturnKeyword() -> Int? {
+        return 1
+    }
+    func oneArgumentHasReturnKeyword(argument: Int) -> Int? {
+        return 1
+    }
+    func twoArgumentHasReturnKeyword(
+        argument1: Int,
+        argument2: String
+        ) -> Int? {
+        return 1
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
+
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclNoReturn") { (activity) in
+                let input = URL(string: TestFunctionDeclNoReturn.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclNoReturn: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func noArgumentNoReturn() {
+        
+    }
+    func oneArgumentNoReturn(argument: Int) {
+        
+    }
+    func twoArgumentNoReturn(
+        argument1: Int,
+        argument2: String
+        ) {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
+
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclUsingThrows") { (activity) in
+                let input = URL(string: TestFunctionDeclUsingThrows.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclUsingThrows: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func noArgumentUsingThrowsKeyword() throws {
+        
+    }
+    func oneArgumentUsingThrowsKeyword(argument1: Int) throws {
+        
+    }
+    func multipleArgumentUsingThrowsKeyword(
+        argument1: Int,
+        argument2: String
+        ) throws {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
+
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclMultipleLabel") { (activity) in
+                let input = URL(string: TestFunctionDeclMultipleLabel.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclMultipleLabel: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+
+    func oneArgument(label1 argument1: Int) {
+        
+    }
+    func multipleArgument(
+        label1 argument1: Int,
+        label2 argument2: String
+        ) {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
+
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDiscardLabel") { (activity) in
+                let input = URL(string: TestFunctionDeclDiscardLabel.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclDiscardLabel: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+
+    func oneArgument(_ argument1: Int) {
+        
+    }
+    func multipleArgument(
+        _ argument1: Int,
+        _ argument2: String
+        ) {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
+        
+            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDefaultArgument") { (activity) in
+                let input = URL(string: TestFunctionDeclDefaultArgument.file())!
+                let expected = """
+import Foundation
+
+public class TestFunctionDeclDefaultArgument: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+
+    func oneArgument(argument1: Int = 1) {
+        
+    }
+    func multipleArgument(
+        argument1: Int = 1,
+        argument2: String = "string"
+        ) {
+        
+    }
+}
+
+"""
+                let rewriter = try RagnarokRewriter(path: input)
+                XCTAssertEqual(try rewriter.formatted(), expected)
+            }
             
             try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasEllipsis") { (activity) in
                 let input = URL(string: TestFunctionDeclHasEllipsis.file())!
@@ -390,7 +390,7 @@ public class TestFunctionDeclHasEllipsis: TestDatable {
     public static func file() -> String {
         return #file
     }
-    
+
     func oneArgument(argument1: Int...) {
         
     }

@@ -4,7 +4,7 @@ public class TestFunctionDeclMultipleLabel: TestDatable {
     public static func file() -> String {
         return #file
     }
-    
+
     func oneArgument(label1 argument1: Int) {
         
     }
