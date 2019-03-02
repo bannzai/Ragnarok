@@ -439,6 +439,7 @@ public class TestFunctionDeclForAlreadyMultipleLine: TestDatable {
         
     }
 }
+
 """
                 let rewriter = try RagnarokRewriter(path: input)
                 XCTAssertEqual(try rewriter.formatted(), expected)

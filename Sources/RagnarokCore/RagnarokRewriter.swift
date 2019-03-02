@@ -25,11 +25,34 @@ public class RagnarokRewriter: SyntaxRewriter {
                 return super.visit(node)
         }
         
+        let baseIndent = parentIndent(syntax: functionalParentSyntax)
+        var numberOfLineBreakForClauseLeftParen = 1
+        var numberOfIndentForClauseLeftParen = baseIndent + Const.indent
+        
         func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
             var newParameterList = node
+            
             let indent = parentIndent(syntax: node) + Const.indent * 2
+
             for (offset, parameter) in node.enumerated() {
                 var newParamter = parameter
+                
+                let isAlreadyLineBreak = newParamter.leadingTrivia?.contains(where: { (piece) -> Bool in
+                    switch piece {
+                    case .newlines:
+                        return true
+                    case _:
+                        return false
+                    }
+                }) ?? false
+                let lineBreakCount: Int = isAlreadyLineBreak ? 0 : 1
+                let trailingIndent: Int = isAlreadyLineBreak ? 0 : indent
+
+                let isFirst = offset == node.startIndex
+                if isFirst && isAlreadyLineBreak {
+                    numberOfLineBreakForClauseLeftParen = 0
+                    numberOfIndentForClauseLeftParen = 0
+                }
                 
                 let isLast = (offset + 1) == node.endIndex
                 switchIsLast: switch isLast {
@@ -39,10 +62,10 @@ public class RagnarokRewriter: SyntaxRewriter {
                         // It is bugs for SwiftSyntax
                         // https://bugs.swift.org/browse/SR-9797
                         // https://github.com/apple/swift/pull/22214
-                        let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
+                        let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(lineBreakCount), .spaces(trailingIndent)])
                         newParamter = newParamter.withEllipsis(comma)
                     case _:
-                        let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(1), .spaces(indent)])
+                        let comma = SyntaxFactory.makeCommaToken(trailingTrivia: [.newlines(lineBreakCount), .spaces(trailingIndent)])
                         newParamter = newParamter.withTrailingComma(comma)
                     }
                 case true:
@@ -64,7 +87,6 @@ public class RagnarokRewriter: SyntaxRewriter {
             return newParameterList
         }
         
-        let baseIndent = parentIndent(syntax: functionalParentSyntax)
         var newNode = node
 
         newNode = newNode.withParameterList(
@@ -78,7 +100,7 @@ public class RagnarokRewriter: SyntaxRewriter {
             .withLeftParen(
                 leftParen
                     .withTrailingTrivia(
-                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + Const.indent)
+                        Trivia(arrayLiteral: .newlines(numberOfLineBreakForClauseLeftParen), .spaces(numberOfIndentForClauseLeftParen)
                         )
                 )
         )
