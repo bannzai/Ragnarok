@@ -444,12 +444,12 @@ public class TestFunctionDeclHasEllipsis: TestDatable {
             
             // MARK: - Multipleline function decl
             try XCTContext.runActivity(named: "Test for multiple line decl") { (activity) in
-                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLine") { (activity) in
-                    let input = URL(string: TestFunctionDeclForAlreadyMultipleLine.file())!
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLineUseClosure") { (activity) in
+                    let input = URL(string: TestFunctionDeclForAlreadyMultipleLineUseClosure.file())!
                     let expected = """
 import Foundation
 
-public class TestFunctionDeclForAlreadyMultipleLine: TestDatable {
+public class TestFunctionDeclForAlreadyMultipleLineUseClosure: TestDatable {
     public static func file() -> String {
         return #file
     }

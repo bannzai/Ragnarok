@@ -1,6 +1,6 @@
 import Foundation
 
-public class TestFunctionDeclForAlreadyMultipleLine: TestDatable {
+public class TestFunctionDeclForAlreadyMultipleLineUseClosure: TestDatable {
     public static func file() -> String {
         return #file
     }
