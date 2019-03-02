@@ -217,7 +217,7 @@ public class TestFunctionCallExprMultipleline: TestDatable {
     
     func testFormattedForFunctionDecl() throws {
         try XCTContext.runActivity(named: "Test visit of FunctionDeclSyntax") { (activity) in
-            // MARK: - Singleline test
+            // MARK: - Singleline function decl
             try XCTContext.runActivity(named: "Test for online decl") { (activity) in
                 try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasClosureArgument") { (activity) in
                     let input = URL(string: TestFunctionDeclHasClosureArgument.file())!
@@ -442,7 +442,7 @@ public class TestFunctionDeclHasEllipsis: TestDatable {
                 }
             }
             
-            // MARK: - Multipleline test
+            // MARK: - Multipleline function decl
             try XCTContext.runActivity(named: "Test for multiple line decl") { (activity) in
                 try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLine") { (activity) in
                     let input = URL(string: TestFunctionDeclForAlreadyMultipleLine.file())!
