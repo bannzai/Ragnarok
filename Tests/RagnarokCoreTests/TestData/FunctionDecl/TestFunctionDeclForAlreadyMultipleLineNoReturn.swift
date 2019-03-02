@@ -20,14 +20,21 @@ public class TestFunctionDeclForAlreadyMultipleLineNoReturn: TestDatable {
     }
 }
 
-func globalOneArgumentNoReturn(
+private func globalOneArgumentNoReturn(
     argument: Int
     ) {
     
 }
-func globalTwoArgumentNoReturn(
+private func globalTwoArgumentNoReturn(
     argument1: Int,
     argument2: String
+    ) {
+    
+}
+private func globalThreeArgumentNoReturn(
+    argument1: Int,
+    argument2: String,
+    argument3: String
     ) {
     
 }

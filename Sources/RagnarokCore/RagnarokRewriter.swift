@@ -242,7 +242,7 @@ extension RagnarokRewriter {
 private extension RagnarokRewriter {
     private func parentIndent(syntax: Syntax) -> Int {
         guard let parent = syntax.parent else {
-            return 0
+            return indent(from: syntax)
         }
         return indent(from: parent)
     }
