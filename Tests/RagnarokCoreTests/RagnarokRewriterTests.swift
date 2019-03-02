@@ -5,9 +5,11 @@ import class Foundation.Bundle
 final class RagnarokRewriterTests: XCTestCase {
     func testFormattedForFunctionCallExpr() throws {
         try XCTContext.runActivity(named: "Test visit of FunctionCallExprSyntax") { (activity) in
-            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprNoReturn") { (activity) in
-                let input = URL(string: TestFunctionCallExprNoReturn.file())!
-                let expected = """
+            // MARK: - Single line CallExpr
+            try XCTContext.runActivity(named: "Test for oneline call expr") { (activity) in
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprNoReturn") { (activity) in
+                    let input = URL(string: TestFunctionCallExprNoReturn.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionCallExprNoReturn: TestDatable {
@@ -26,13 +28,13 @@ public class TestFunctionCallExprNoReturn: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-            
-            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprInGuard") { (activity) in
-                let input = URL(string: TestFunctionCallExprInGuard.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprInGuard") { (activity) in
+                    let input = URL(string: TestFunctionCallExprInGuard.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionCallExprInGuard: TestDatable {
@@ -64,13 +66,13 @@ public class TestFunctionCallExprInGuard: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-            
-            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprInIf") { (activity) in
-                let input = URL(string: TestFunctionCallExprInIf.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprInIf") { (activity) in
+                    let input = URL(string: TestFunctionCallExprInIf.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionCallExprInIf: TestDatable {
@@ -95,13 +97,13 @@ public class TestFunctionCallExprInIf: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-            
-            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprSubstituteVariable") { (activity) in
-                let input = URL(string: TestFunctionCallExprSubstituteVariable.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprSubstituteVariable") { (activity) in
+                    let input = URL(string: TestFunctionCallExprSubstituteVariable.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionCallExprSubstituteVariable: TestDatable {
@@ -126,13 +128,13 @@ public class TestFunctionCallExprSubstituteVariable: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-            
-            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprUsingTryKeyword") { (activity) in
-                let input = URL(string: TestFunctionCallExprUsingTryKeyword.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprUsingTryKeyword") { (activity) in
+                    let input = URL(string: TestFunctionCallExprUsingTryKeyword.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionCallExprUsingTryKeyword: TestDatable {
@@ -151,13 +153,13 @@ public class TestFunctionCallExprUsingTryKeyword: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-            
-            try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprforDiscardAssignment") { (activity) in
-                let input = URL(string: TestFunctionCallExprforDiscardAssignment.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprforDiscardAssignment") { (activity) in
+                    let input = URL(string: TestFunctionCallExprforDiscardAssignment.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionCallExprforDiscardAssignment: TestDatable {
@@ -176,10 +178,40 @@ public class TestFunctionCallExprforDiscardAssignment: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
             }
+            
+            // MARK: - Multiplie line CallExpr
+            try XCTContext.runActivity(named: "Test for multiple line call expr") { (activity) in
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprMultipleline") { (activity) in
+                    let input = URL(string: TestFunctionCallExprMultipleline.file())!
+                    let expected = """
+import Foundation
 
+public class TestFunctionCallExprMultipleline: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func example() {
+        let test = TestFunctionDeclHasReturnType()
+        _ = test.noArgumentHasReturnKeyword()
+        _ = test.oneArgumentHasReturnKeyword(
+            argument: 1
+        )
+        _ = test.twoArgumentHasReturnKeyword(
+            argument1: 1,
+            argument2: "string"
+        )
+    }
+}
+
+"""
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+            }
         }
     }
     
