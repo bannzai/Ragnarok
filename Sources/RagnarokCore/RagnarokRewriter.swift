@@ -25,14 +25,15 @@ public class RagnarokRewriter: SyntaxRewriter {
                 return super.visit(node)
         }
         
-        let baseIndent = parentIndent(syntax: functionalParentSyntax)
+        let indentForParent = parentIndent(syntax: functionalParentSyntax)
+        let baseIndent = indentForParent == 0 ? Const.indent : indentForParent
         var numberOfLineBreakForClauseLeftParen = 1
-        var numberOfIndentForClauseLeftParen = baseIndent == 0 ? baseIndent + Const.indent : baseIndent
+        var numberOfIndentForClauseLeftParen = baseIndent
         
         func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
             var newParameterList = node
             
-            let indent = baseIndent == 0 ? baseIndent + Const.indent : baseIndent
+            let indent = baseIndent
 
             for (offset, parameter) in node.enumerated() {
                 var newParamter = parameter
