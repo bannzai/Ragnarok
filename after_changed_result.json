@@ -1,0 +1,473 @@
+{
+  "id": 42,
+  "kind": "SourceFile",
+  "layout": [
+    {
+      "id": 41,
+      "kind": "CodeBlockItemList",
+      "layout": [
+        {
+          "id": 6,
+          "kind": "CodeBlockItem",
+          "layout": [
+            {
+              "id": 5,
+              "kind": "ImportDecl",
+              "layout": [
+                null,
+                null,
+                {
+                  "id": 1,
+                  "tokenKind": {
+                    "kind": "kw_import"
+                  },
+                  "leadingTrivia": [],
+                  "trailingTrivia": [
+                    {
+                      "kind": "Space",
+                      "value": 1
+                    }
+                  ],
+                  "presence": "Present"
+                },
+                null,
+                {
+                  "id": 4,
+                  "kind": "AccessPath",
+                  "layout": [
+                    {
+                      "id": 3,
+                      "kind": "AccessPathComponent",
+                      "layout": [
+                        {
+                          "id": 2,
+                          "tokenKind": {
+                            "kind": "identifier",
+                            "text": "Foundation"
+                          },
+                          "leadingTrivia": [],
+                          "trailingTrivia": [],
+                          "presence": "Present"
+                        },
+                        null
+                      ],
+                      "presence": "Present"
+                    }
+                  ],
+                  "presence": "Present"
+                }
+              ],
+              "presence": "Present"
+            },
+            null,
+            null
+          ],
+          "presence": "Present"
+        },
+        {
+          "id": 39,
+          "kind": "CodeBlockItem",
+          "layout": [
+            {
+              "id": 38,
+              "kind": "ClassDecl",
+              "layout": [
+                null,
+                {
+                  "id": 9,
+                  "kind": "ModifierList",
+                  "layout": [
+                    {
+                      "id": 8,
+                      "kind": "DeclModifier",
+                      "layout": [
+                        {
+                          "id": 7,
+                          "tokenKind": {
+                            "kind": "kw_public"
+                          },
+                          "leadingTrivia": [
+                            {
+                              "kind": "Newline",
+                              "value": 2
+                            }
+                          ],
+                          "trailingTrivia": [
+                            {
+                              "kind": "Space",
+                              "value": 1
+                            }
+                          ],
+                          "presence": "Present"
+                        },
+                        null,
+                        null,
+                        null
+                      ],
+                      "presence": "Present"
+                    }
+                  ],
+                  "presence": "Present"
+                },
+                {
+                  "id": 10,
+                  "tokenKind": {
+                    "kind": "kw_class"
+                  },
+                  "leadingTrivia": [],
+                  "trailingTrivia": [
+                    {
+                      "kind": "Space",
+                      "value": 1
+                    }
+                  ],
+                  "presence": "Present"
+                },
+                {
+                  "id": 11,
+                  "tokenKind": {
+                    "kind": "identifier",
+                    "text": "TestFunctionDeclNoReturn"
+                  },
+                  "leadingTrivia": [],
+                  "trailingTrivia": [
+                    {
+                      "kind": "Space",
+                      "value": 1
+                    }
+                  ],
+                  "presence": "Present"
+                },
+                null,
+                null,
+                null,
+                {
+                  "id": 37,
+                  "kind": "MemberDeclBlock",
+                  "layout": [
+                    {
+                      "id": 12,
+                      "tokenKind": {
+                        "kind": "l_brace"
+                      },
+                      "leadingTrivia": [],
+                      "trailingTrivia": [],
+                      "presence": "Present"
+                    },
+                    {
+                      "id": 35,
+                      "kind": "MemberDeclList",
+                      "layout": [
+                        {
+                          "id": 34,
+                          "kind": "MemberDeclListItem",
+                          "layout": [
+                            {
+                              "id": 33,
+                              "kind": "FunctionDecl",
+                              "layout": [
+                                null,
+                                null,
+                                {
+                                  "id": 13,
+                                  "tokenKind": {
+                                    "kind": "kw_func"
+                                  },
+                                  "leadingTrivia": [
+                                    {
+                                      "kind": "Newline",
+                                      "value": 1
+                                    },
+                                    {
+                                      "kind": "Space",
+                                      "value": 4
+                                    }
+                                  ],
+                                  "trailingTrivia": [
+                                    {
+                                      "kind": "Space",
+                                      "value": 1
+                                    }
+                                  ],
+                                  "presence": "Present"
+                                },
+                                {
+                                  "id": 14,
+                                  "tokenKind": {
+                                    "kind": "identifier",
+                                    "text": "twoArgumentNoReturn"
+                                  },
+                                  "leadingTrivia": [],
+                                  "trailingTrivia": [],
+                                  "presence": "Present"
+                                },
+                                null,
+                                {
+                                  "id": 29,
+                                  "kind": "FunctionSignature",
+                                  "layout": [
+                                    {
+                                      "id": 28,
+                                      "kind": "ParameterClause",
+                                      "layout": [
+                                        {
+                                          "id": 15,
+                                          "tokenKind": {
+                                            "kind": "l_paren"
+                                          },
+                                          "leadingTrivia": [],
+                                          "trailingTrivia": [],
+                                          "presence": "Present"
+                                        },
+                                        {
+                                          "id": 26,
+                                          "kind": "FunctionParameterList",
+                                          "layout": [
+                                            {
+                                              "id": 21,
+                                              "kind": "FunctionParameter",
+                                              "layout": [
+                                                null,
+                                                {
+                                                  "id": 16,
+                                                  "tokenKind": {
+                                                    "kind": "identifier",
+                                                    "text": "argument1"
+                                                  },
+                                                  "leadingTrivia": [],
+                                                  "trailingTrivia": [],
+                                                  "presence": "Present"
+                                                },
+                                                null,
+                                                {
+                                                  "id": 17,
+                                                  "tokenKind": {
+                                                    "kind": "colon"
+                                                  },
+                                                  "leadingTrivia": [],
+                                                  "trailingTrivia": [
+                                                    {
+                                                      "kind": "Space",
+                                                      "value": 1
+                                                    }
+                                                  ],
+                                                  "presence": "Present"
+                                                },
+                                                {
+                                                  "id": 19,
+                                                  "kind": "SimpleTypeIdentifier",
+                                                  "layout": [
+                                                    {
+                                                      "id": 18,
+                                                      "tokenKind": {
+                                                        "kind": "identifier",
+                                                        "text": "Int"
+                                                      },
+                                                      "leadingTrivia": [],
+                                                      "trailingTrivia": [],
+                                                      "presence": "Present"
+                                                    },
+                                                    null
+                                                  ],
+                                                  "presence": "Present"
+                                                },
+                                                null,
+                                                null,
+                                                {
+                                                  "id": 20,
+                                                  "tokenKind": {
+                                                    "kind": "comma"
+                                                  },
+                                                  "leadingTrivia": [],
+                                                  "trailingTrivia": [
+                                                    {
+                                                      "kind": "Space",
+                                                      "value": 1
+                                                    }
+                                                  ],
+                                                  "presence": "Present"
+                                                }
+                                              ],
+                                              "presence": "Present"
+                                            },
+                                            {
+                                              "id": 25,
+                                              "kind": "FunctionParameter",
+                                              "layout": [
+                                                null,
+                                                {
+                                                  "id": 22,
+                                                  "tokenKind": {
+                                                    "kind": "identifier",
+                                                    "text": "argument2"
+                                                  },
+                                                  "leadingTrivia": [],
+                                                  "trailingTrivia": [],
+                                                  "presence": "Present"
+                                                },
+                                                null,
+                                                {
+                                                  "id": 17,
+                                                  "tokenKind": {
+                                                    "kind": "colon"
+                                                  },
+                                                  "leadingTrivia": [],
+                                                  "trailingTrivia": [
+                                                    {
+                                                      "kind": "Space",
+                                                      "value": 1
+                                                    }
+                                                  ],
+                                                  "presence": "Present"
+                                                },
+                                                {
+                                                  "id": 24,
+                                                  "kind": "SimpleTypeIdentifier",
+                                                  "layout": [
+                                                    {
+                                                      "id": 23,
+                                                      "tokenKind": {
+                                                        "kind": "identifier",
+                                                        "text": "String"
+                                                      },
+                                                      "leadingTrivia": [],
+                                                      "trailingTrivia": [],
+                                                      "presence": "Present"
+                                                    },
+                                                    null
+                                                  ],
+                                                  "presence": "Present"
+                                                },
+                                                null,
+                                                null,
+                                                null
+                                              ],
+                                              "presence": "Present"
+                                            }
+                                          ],
+                                          "presence": "Present"
+                                        },
+                                        {
+                                          "id": 27,
+                                          "tokenKind": {
+                                            "kind": "r_paren"
+                                          },
+                                          "leadingTrivia": [],
+                                          "trailingTrivia": [
+                                            {
+                                              "kind": "Space",
+                                              "value": 1
+                                            }
+                                          ],
+                                          "presence": "Present"
+                                        }
+                                      ],
+                                      "presence": "Present"
+                                    },
+                                    null,
+                                    null
+                                  ],
+                                  "presence": "Present"
+                                },
+                                null,
+                                {
+                                  "id": 32,
+                                  "kind": "CodeBlock",
+                                  "layout": [
+                                    {
+                                      "id": 12,
+                                      "tokenKind": {
+                                        "kind": "l_brace"
+                                      },
+                                      "leadingTrivia": [],
+                                      "trailingTrivia": [],
+                                      "presence": "Present"
+                                    },
+                                    {
+                                      "id": 30,
+                                      "kind": "CodeBlockItemList",
+                                      "layout": [],
+                                      "presence": "Present"
+                                    },
+                                    {
+                                      "id": 31,
+                                      "tokenKind": {
+                                        "kind": "r_brace"
+                                      },
+                                      "leadingTrivia": [
+                                        {
+                                          "kind": "Newline",
+                                          "value": 2
+                                        },
+                                        {
+                                          "kind": "Space",
+                                          "value": 4
+                                        }
+                                      ],
+                                      "trailingTrivia": [],
+                                      "presence": "Present"
+                                    }
+                                  ],
+                                  "presence": "Present"
+                                }
+                              ],
+                              "presence": "Present"
+                            },
+                            null
+                          ],
+                          "presence": "Present"
+                        }
+                      ],
+                      "presence": "Present"
+                    },
+                    {
+                      "id": 36,
+                      "tokenKind": {
+                        "kind": "r_brace"
+                      },
+                      "leadingTrivia": [
+                        {
+                          "kind": "Newline",
+                          "value": 1
+                        }
+                      ],
+                      "trailingTrivia": [
+                        {
+                          "kind": "Space",
+                          "value": 1
+                        }
+                      ],
+                      "presence": "Present"
+                    }
+                  ],
+                  "presence": "Present"
+                }
+              ],
+              "presence": "Present"
+            },
+            null,
+            null
+          ],
+          "presence": "Present"
+        }
+      ],
+      "presence": "Present"
+    },
+    {
+      "id": 40,
+      "tokenKind": {
+        "kind": "eof",
+        "text": ""
+      },
+      "leadingTrivia": [
+        {
+          "kind": "Newline",
+          "value": 1
+        }
+      ],
+      "trailingTrivia": [],
+      "presence": "Present"
+    }
+  ],
+  "presence": "Present"
+}
