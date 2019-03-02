@@ -14,3 +14,11 @@ public class TestFunctionDeclNoReturn: TestDatable {
         
     }
 }
+
+func globalSinglelineOneArgumentNoReturn(argument: Int) {
+    
+}
+func globalSinglelineTwoArgumentNoReturn(argument1: Int, argument2: String) {
+    
+}
+
