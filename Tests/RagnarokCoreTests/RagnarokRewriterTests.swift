@@ -293,9 +293,7 @@ public class TestFunctionDeclNoReturn: TestDatable {
     func noArgumentNoReturn() {
         
     }
-    func oneArgumentNoReturn(
-        argument: Int
-        ) {
+    func oneArgumentNoReturn(argument: Int) {
         
     }
     func twoArgumentNoReturn(
@@ -306,9 +304,7 @@ public class TestFunctionDeclNoReturn: TestDatable {
     }
 }
 
-private func globalOneArgumentNoReturn(
-    argument: Int
-    ) {
+private func globalOneArgumentNoReturn(argument: Int) {
     
 }
 private func globalTwoArgumentNoReturn(
