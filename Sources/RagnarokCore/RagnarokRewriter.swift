@@ -25,14 +25,15 @@ public class RagnarokRewriter: SyntaxRewriter {
                 return super.visit(node)
         }
         
-        let baseIndent = parentIndent(syntax: functionalParentSyntax)
+        let indentForParent = parentIndent(syntax: functionalParentSyntax)
+        let baseIndent = indentForParent == 0 ? Const.indent : indentForParent
         var numberOfLineBreakForClauseLeftParen = 1
-        var numberOfIndentForClauseLeftParen = baseIndent + Const.indent
+        var numberOfIndentForClauseLeftParen = baseIndent
         
         func makeSyntax(node: FunctionParameterListSyntax) -> FunctionParameterListSyntax {
             var newParameterList = node
             
-            let indent = parentIndent(syntax: node) + Const.indent * 2
+            let indent = baseIndent
 
             for (offset, parameter) in node.enumerated() {
                 var newParamter = parameter
@@ -45,10 +46,12 @@ public class RagnarokRewriter: SyntaxRewriter {
                         return false
                     }
                 }) ?? false
+                
+                let isFirst = offset == node.startIndex
+                
                 let lineBreakCount: Int = isAlreadyLineBreak ? 0 : 1
                 let trailingIndent: Int = isAlreadyLineBreak ? 0 : indent
 
-                let isFirst = offset == node.startIndex
                 if isFirst && isAlreadyLineBreak {
                     numberOfLineBreakForClauseLeftParen = 0
                     numberOfIndentForClauseLeftParen = 0
@@ -110,7 +113,7 @@ public class RagnarokRewriter: SyntaxRewriter {
             .withRightParen(
                 rightParen
                     .withLeadingTrivia(
-                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent + Const.indent)
+                        Trivia(arrayLiteral: .newlines(1), .spaces(baseIndent)
                         )
                 )
         )
@@ -241,10 +244,14 @@ extension RagnarokRewriter {
 // MARK: - Private
 private extension RagnarokRewriter {
     private func parentIndent(syntax: Syntax) -> Int {
-        guard let parent = syntax.parent else {
-            return 0
+        var child = syntax
+        var total = indent(from: child)
+        while let parent = child.parent {
+            total += indent(from: parent)
+            child = parent
         }
-        return indent(from: parent)
+        total += indent(from: child)
+        return total
     }
     
     private func indent(from syntax: Syntax) -> Int {

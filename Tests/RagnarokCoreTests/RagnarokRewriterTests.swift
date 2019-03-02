@@ -304,6 +304,23 @@ public class TestFunctionDeclNoReturn: TestDatable {
     }
 }
 
+private func globalOneArgumentNoReturn(argument: Int) {
+    
+}
+private func globalTwoArgumentNoReturn(
+    argument1: Int,
+    argument2: String
+    ) {
+    
+}
+private func globalThreeArgumentNoReturn(
+    argument1: Int,
+    argument2: String,
+    argument3: String
+    ) {
+    
+}
+
 """
                     let rewriter = try RagnarokRewriter(path: input)
                     XCTAssertEqual(try rewriter.formatted(), expected)
@@ -444,12 +461,60 @@ public class TestFunctionDeclHasEllipsis: TestDatable {
             
             // MARK: - Multipleline function decl
             try XCTContext.runActivity(named: "Test for multiple line decl") { (activity) in
-                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLine") { (activity) in
-                    let input = URL(string: TestFunctionDeclForAlreadyMultipleLine.file())!
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLineNoReturn") { (activity) in
+                    let input = URL(string: TestFunctionDeclForAlreadyMultipleLineNoReturn.file())!
                     let expected = """
 import Foundation
 
-public class TestFunctionDeclForAlreadyMultipleLine: TestDatable {
+public class TestFunctionDeclForAlreadyMultipleLineNoReturn: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    func noArgumentNoReturn() {
+        
+    }
+    func oneArgumentNoReturn(
+        argument: Int
+        ) {
+        
+    }
+    func twoArgumentNoReturn(
+        argument1: Int,
+        argument2: String
+        ) {
+        
+    }
+}
+
+private func globalOneArgumentNoReturn(
+    argument: Int
+    ) {
+    
+}
+private func globalTwoArgumentNoReturn(
+    argument1: Int,
+    argument2: String
+    ) {
+    
+}
+private func globalThreeArgumentNoReturn(
+    argument1: Int,
+    argument2: String,
+    argument3: String
+    ) {
+    
+}
+
+"""
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLineUseClosure") { (activity) in
+                    let input = URL(string: TestFunctionDeclForAlreadyMultipleLineUseClosure.file())!
+                    let expected = """
+import Foundation
+
+public class TestFunctionDeclForAlreadyMultipleLineUseClosure: TestDatable {
     public static func file() -> String {
         return #file
     }
