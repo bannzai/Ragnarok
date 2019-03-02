@@ -185,9 +185,11 @@ public class TestFunctionCallExprforDiscardAssignment: TestDatable {
     
     func testFormattedForFunctionDecl() throws {
         try XCTContext.runActivity(named: "Test visit of FunctionDeclSyntax") { (activity) in
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasClosureArgument") { (activity) in
-                let input = URL(string: TestFunctionDeclHasClosureArgument.file())!
-                let expected = """
+            // MARK: - Singleline test
+            try XCTContext.runActivity(named: "Test for online decl") { (activity) in
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasClosureArgument") { (activity) in
+                    let input = URL(string: TestFunctionDeclHasClosureArgument.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclHasClosureArgument: TestDatable {
@@ -215,13 +217,13 @@ public class TestFunctionDeclHasClosureArgument: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasReturnType") { (activity) in
-                let input = URL(string: TestFunctionDeclHasReturnType.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasReturnType") { (activity) in
+                    let input = URL(string: TestFunctionDeclHasReturnType.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclHasReturnType: TestDatable {
@@ -243,13 +245,13 @@ public class TestFunctionDeclHasReturnType: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclNoReturn") { (activity) in
-                let input = URL(string: TestFunctionDeclNoReturn.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclNoReturn") { (activity) in
+                    let input = URL(string: TestFunctionDeclNoReturn.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclNoReturn: TestDatable {
@@ -271,13 +273,13 @@ public class TestFunctionDeclNoReturn: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclUsingThrows") { (activity) in
-                let input = URL(string: TestFunctionDeclUsingThrows.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclUsingThrows") { (activity) in
+                    let input = URL(string: TestFunctionDeclUsingThrows.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclUsingThrows: TestDatable {
@@ -299,13 +301,13 @@ public class TestFunctionDeclUsingThrows: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclMultipleLabel") { (activity) in
-                let input = URL(string: TestFunctionDeclMultipleLabel.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclMultipleLabel") { (activity) in
+                    let input = URL(string: TestFunctionDeclMultipleLabel.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclMultipleLabel: TestDatable {
@@ -325,13 +327,13 @@ public class TestFunctionDeclMultipleLabel: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDiscardLabel") { (activity) in
-                let input = URL(string: TestFunctionDeclDiscardLabel.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDiscardLabel") { (activity) in
+                    let input = URL(string: TestFunctionDeclDiscardLabel.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclDiscardLabel: TestDatable {
@@ -351,13 +353,13 @@ public class TestFunctionDeclDiscardLabel: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-        
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDefaultArgument") { (activity) in
-                let input = URL(string: TestFunctionDeclDefaultArgument.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclDefaultArgument") { (activity) in
+                    let input = URL(string: TestFunctionDeclDefaultArgument.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclDefaultArgument: TestDatable {
@@ -377,13 +379,13 @@ public class TestFunctionDeclDefaultArgument: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
-            }
-            
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasEllipsis") { (activity) in
-                let input = URL(string: TestFunctionDeclHasEllipsis.file())!
-                let expected = """
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
+                
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclHasEllipsis") { (activity) in
+                    let input = URL(string: TestFunctionDeclHasEllipsis.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclHasEllipsis: TestDatable {
@@ -403,13 +405,16 @@ public class TestFunctionDeclHasEllipsis: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
             }
             
-            try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLine") { (activity) in
-                let input = URL(string: TestFunctionDeclForAlreadyMultipleLine.file())!
-                let expected = """
+            // MARK: - Multipleline test
+            try XCTContext.runActivity(named: "Test for multiple line decl") { (activity) in
+                try XCTContext.runActivity(named: "Test visit of TestFunctionDeclForAlreadyMultipleLine") { (activity) in
+                    let input = URL(string: TestFunctionDeclForAlreadyMultipleLine.file())!
+                    let expected = """
 import Foundation
 
 public class TestFunctionDeclForAlreadyMultipleLine: TestDatable {
@@ -441,11 +446,10 @@ public class TestFunctionDeclForAlreadyMultipleLine: TestDatable {
 }
 
 """
-                let rewriter = try RagnarokRewriter(path: input)
-                XCTAssertEqual(try rewriter.formatted(), expected)
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
             }
-
-
         }
     }
 }
