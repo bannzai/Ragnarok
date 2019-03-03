@@ -76,5 +76,5 @@ This project for I wanted to use [SwiftSyntax](https://github.com/apple/swift-sy
 The name Ragnarok has no meaning. I just took it for saying. Same as `remake of destiny`.  
 
 ## License
-rd is the same as changing destiny
-**Ragnarok** is available under the MIT license. See the [LICENSE](./LICENSE) file for more info.  
+**Ragnarok** is available under the MIT license.   
+See the [LICENSE](./LICENSE) file for more info.    
