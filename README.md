@@ -2,8 +2,7 @@
 Remake of destiny.
 
 ## Introduction
-**Ragnarok** remake swift file syntax library.  
-It supported only `FunctionCallExpr` and `FunctionDecl` argument list syntax.  
+**Ragnarok** rewrite swift file library.  
 If you have `TestFunctionCallExprInGuard.swift`  
 
 ```swift
