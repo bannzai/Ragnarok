@@ -73,6 +73,7 @@ public class TestFunctionCallExprInGuard: TestDatable {
 ## Why Ragnarok??
 This project for I wanted to use [SwiftSyntax](https://github.com/apple/swift-syntax) with curiosity.  
 The name Ragnarok has no meaning. I just took it for saying. Same as `remake of destiny`.  
+The **Ragnarok** godparent is [gaopin](https://github.com/gaopin1534). [Reference](https://twitter.com/gaopin1534/status/1080711008237154304)
 
 ## License
 **Ragnarok** is available under the MIT license.   
