@@ -31,6 +31,43 @@ public class TestFunctionCallExprNoReturn: TestDatable {
                     let rewriter = try RagnarokRewriter(path: input)
                     XCTAssertEqual(try rewriter.formatted(), expected)
                 }
+                try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprNestedFunction") { (activity) in
+                    let input = URL(string: TestFunctionCallExprNestedFunction.file())!
+                    let expected = """
+import Foundation
+
+public class TestFunctionCallExprNestedFunction: TestDatable {
+    public static func file() -> String {
+        return #file
+    }
+    
+    func a() {
+        
+    }
+
+    func example() {
+        let test = TestFunctionDeclHasReturnType()
+        print(test.noArgumentHasReturnKeyword()!)
+        print(
+            test.twoArgumentHasReturnKeyword(
+                argument1: 1,
+                argument2: "2"
+                )!,
+            test.twoArgumentHasReturnKeyword(
+                argument1: 1,
+                argument2: "2"
+                )!,
+            test.twoArgumentHasReturnKeyword(
+                argument1: 1,
+                argument2: "2"
+                )!
+        )
+    }
+}
+"""
+                    let rewriter = try RagnarokRewriter(path: input)
+                    XCTAssertEqual(try rewriter.formatted(), expected)
+                }
                 
                 try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprInGuard") { (activity) in
                     let input = URL(string: TestFunctionCallExprInGuard.file())!
