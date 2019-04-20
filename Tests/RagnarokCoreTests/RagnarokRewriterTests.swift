@@ -32,7 +32,7 @@ public class TestFunctionCallExprNoReturn: TestDatable {
                     XCTAssertEqual(try rewriter.formatted(), expected)
                 }
                 try XCTContext.runActivity(named: "Test visit of TestFunctionCallExprNestedFunction") { (activity) in
-                    let input = URL(string: TestFunctionCallExprNestedFunction.file())!
+                    let input = URL(string: TestFunctionCallExprNestedCallFunction.file())!
                     let expected = """
 import Foundation
 

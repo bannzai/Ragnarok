@@ -1,6 +1,6 @@
 import Foundation
 
-public class TestFunctionCallExprNestedFunction: TestDatable {
+public class TestFunctionCallExprNestedCallFunction: TestDatable {
     public static func file() -> String {
         return #file
     }
